@@ -1,0 +1,15 @@
+profile.yaml
+*.pyc
+
+# Audio files
+*.wav
+*.flac
+*.raw
+*.aiff
+
+#IDE configuration
+.idea/*
+workspace.xml
+tasks.xml
+*__pycache__*
+
