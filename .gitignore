@@ -1,4 +1,7 @@
-# for ubuntu os
+# Ignore a test file
+test.py
+
+# Ignore ubuntu os files
 *.*~
 
 profile.yaml
@@ -15,4 +18,3 @@ profile.yaml
 workspace.xml
 tasks.xml
 *__pycache__*
-
