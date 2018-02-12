@@ -20,9 +20,6 @@ from features.respond.tts import tts
 # asound = cdll.LoadLibrary('libasound.so')
 # # Set error handler
 # asound.snd_lib_error_set_handler(c_error_handler)
-
-# Reset to default error handler
-# asound.snd_lib_error_set_handler(None)
 # ----------------------------------------------------
 
 
@@ -62,7 +59,7 @@ except sr.RequestError as e:
     print("Could not request results from Google Speech Recognition service; {0}".format(e))
 
 tts(speech_text)
-tts('Bye My friend, ' + name)
+tts('Bye My friend')
 
 '''
 # recognize speech using Wit.ai
