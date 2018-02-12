@@ -6,28 +6,27 @@ from features.respond.tts import tts
 
 # Suppress ALSA lib error messages
 # ----------------------------------------------------
-from ctypes import *
+# from ctypes import *
 
-# Define our error handler type
-ERROR_HANDLER_FUNC = CFUNCTYPE(None, c_char_p, c_int, c_char_p, c_int, c_char_p)
-
-
-def py_error_handler(filename, line, function, err, fmt):
-    pass
+# # Define our error handler type
+# ERROR_HANDLER_FUNC = CFUNCTYPE(None, c_char_p, c_int, c_char_p, c_int, c_char_p)
 
 
-c_error_handler = ERROR_HANDLER_FUNC(py_error_handler)
-asound = cdll.LoadLibrary('libasound.so')
-# Set error handler
-asound.snd_lib_error_set_handler(c_error_handler)
+# def py_error_handler(filename, line, function, err, fmt):
+#     pass
+
+
+# c_error_handler = ERROR_HANDLER_FUNC(py_error_handler)
+# asound = cdll.LoadLibrary('libasound.so')
+# # Set error handler
+# asound.snd_lib_error_set_handler(c_error_handler)
 
 # Reset to default error handler
 # asound.snd_lib_error_set_handler(None)
 # ----------------------------------------------------
 
 
-name = 'Ali'
-tts('Welcome ' + name + ', systems are now ready to run. How can I help you?')
+tts('Welcome! systems are now ready to run. How can I help you?')
 
 # obtain audio from the microphone
 r = sr.Recognizer()
@@ -50,7 +49,7 @@ except sr.UnknownValueError:
 except sr.RequestError as e:
     print("Sphinx error; {0}".format(e))
 
-# recognize speech using Google Speech Recognition
+recognize speech using Google Speech Recognition
 try:
     # for testing purposes, we're just using the default API key
     # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
