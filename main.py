@@ -2,8 +2,9 @@
 
 import speech_recognition as sr
 import json
-from wit import Wit
 from features.respond.tts import tts
+from wit import Wit
+from brain import brain
 
 # Load profile data
 with open('profile.json') as f:
@@ -31,7 +32,7 @@ def main():
     for i in range(2):
         # recognize speech using Google Speech Recognition
         try:
-            speech_text = r.recognize_google(audio)
+            speech_text = r.recognize_google(audio).lower()
             print(f'Jarvis thinks you said "{speech_text}"')
             break
         except sr.UnknownValueError:
@@ -42,7 +43,7 @@ def main():
         # recognize speech using Wit.ai
         WIT_AI_KEY = "NCC2OIS54Y2ROFYCJ2XZDZREMXTNTIR5"
         try:
-            speech_text = r.recognize_wit(audio, key=WIT_AI_KEY)
+            speech_text = r.recognize_wit(audio, key=WIT_AI_KEY).lower()
             print(f'Jarvis thinks you said "{speech_text}"')
             break
         except sr.UnknownValueError:
@@ -50,9 +51,38 @@ def main():
         except sr.RequestError as e:
             print("Could not request results from Wit.ai service; {0}".format(e))
 
+        # recognize speech using Microsoft Bing Voice Recognition
+        # Endpoint: https://api.cognitive.microsoft.com/sts/v1.0
+        # Key 1: 0d6a77ea6cb648a5a123639dd5b4932b
+        # Key 2: 92cf7a2c73424f31b6424e4148e37e4f
+        BING_KEY = "0d6a77ea6cb648a5a123639dd5b4932b"
+        try:
+            speech_text = r.recognize_bing(audio, key=BING_KEY).lower()
+            print(f'Jarvis thinks you said "{speech_text}"')
+            break
+        except sr.UnknownValueError:
+            print("Microsoft Bing Voice Recognition could not understand audio")
+        except sr.RequestError as e:
+            print("Could not request results from Microsoft Bing Voice Recognition service; {0}".format(e))
+
+        # recognize speech using IBM Speech to Text
+        # "url": "https://stream.watsonplatform.net/speech-to-text/api"
+        # "username": "6ce9b92d-21c7-40f2-a7f5-3e89e247b0b7"
+        # "password": "PMDair8fVjmu"
+        IBM_USERNAME = "6ce9b92d-21c7-40f2-a7f5-3e89e247b0b7"
+        IBM_PASSWORD = "PMDair8fVjmu"
+        try:
+            speech_text = r.recognize_ibm(audio, username=IBM_USERNAME, password=IBM_PASSWORD).lower()
+            print(f'Jarvis thinks you said "{speech_text}"')
+            break
+        except sr.UnknownValueError:
+            print("IBM Speech to Text could not understand audio")
+        except sr.RequestError as e:
+            print("Could not request results from IBM Speech to Text service; {0}".format(e))
+
         # recognize speech using Sphinx
         try:
-            speech_text = r.recognize_sphinx(audio)
+            speech_text = r.recognize_sphinx(audio).lower()
             print(f'Jarvis thinks you said "{speech_text}"')
             break
         except sr.UnknownValueError:
@@ -60,7 +90,7 @@ def main():
         except sr.RequestError as e:
             print("Sphinx error; {0}".format(e))
 
-    tts(speech_text)
+    brain(name, speech_text)
     tts(f'Bye My friend {name}')
 
 
@@ -70,16 +100,3 @@ if __name__ == '__main__':
 # client = Wit(access_token=WIT_AI_KEY)
 # resp = client.message(speech_text)
 # print('Yay, got Wit.ai response: ' + str(resp))
-
-# ---------------------------------------------------------------
-# # recognize speech using Microsoft Bing Voice Recognition
-# Endpoint: https://api.cognitive.microsoft.com/sts/v1.0
-# Key 1: 0d6a77ea6cb648a5a123639dd5b4932b
-# Key 2: 92cf7a2c73424f31b6424e4148e37e4f
-# BING_KEY = "INSERT BING API KEY HERE"  # Microsoft Bing Voice Recognition API keys 32-character lowercase hexadecimal strings
-# try:
-#     print("Microsoft Bing Voice Recognition thinks you said " + r.recognize_bing(audio, key=BING_KEY))
-# except sr.UnknownValueError:
-#     print("Microsoft Bing Voice Recognition could not understand audio")
-# except sr.RequestError as e:
-#     print("Could not request results from Microsoft Bing Voice Recognition service; {0}".format(e))
