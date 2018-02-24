@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 
 import speech_recognition as sr
-from tts import tts
-from wit import Wit
 
+from features.respond.tts import tts
 
 # Suppress ALSA lib error messages
 # ----------------------------------------------------
