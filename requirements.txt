@@ -1,2 +1,6 @@
+pyowm
+requests
+PyWit
+wikipedia
 botocore
 boto3

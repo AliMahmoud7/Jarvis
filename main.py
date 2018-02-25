@@ -24,7 +24,7 @@ def main():
         print("Say something!")
         audio = r.listen(source)
 
-    # # write audio to a WAV file
+    # write audio to a WAV file
     # with open("microphone-results.wav", "wb") as f:
     #     f.write(audio.get_wav_data())
 
@@ -38,17 +38,6 @@ def main():
             print("Google Speech Recognition could not understand audio")
         except sr.RequestError as e:
             print("Could not request results from Google Speech Recognition service; {0}".format(e))
-
-        # recognize speech using Wit.ai
-        WIT_AI_KEY = "NCC2OIS54Y2ROFYCJ2XZDZREMXTNTIR5"
-        try:
-            speech_text = r.recognize_wit(audio, key=WIT_AI_KEY).lower()
-            print(f'WIT -Jarvis thinks you said "{speech_text}"')
-            break
-        except sr.UnknownValueError:
-            print("Wit.ai could not understand audio")
-        except sr.RequestError as e:
-            print("Could not request results from Wit.ai service; {0}".format(e))
 
         # recognize speech using Microsoft Bing Voice Recognition
         # Endpoint: https://api.cognitive.microsoft.com/sts/v1.0
@@ -79,6 +68,17 @@ def main():
         except sr.RequestError as e:
             print("Could not request results from IBM Speech to Text service; {0}".format(e))
 
+        # recognize speech using Wit.ai
+        WIT_AI_KEY = "NCC2OIS54Y2ROFYCJ2XZDZREMXTNTIR5"
+        try:
+            speech_text = r.recognize_wit(audio, key=WIT_AI_KEY).lower()
+            print(f'WIT -Jarvis thinks you said "{speech_text}"')
+            break
+        except sr.UnknownValueError:
+            print("Wit.ai could not understand audio")
+        except sr.RequestError as e:
+            print("Could not request results from Wit.ai service; {0}".format(e))
+
         # recognize speech using Sphinx
         try:
             speech_text = r.recognize_sphinx(audio).lower()
@@ -90,6 +90,7 @@ def main():
             print("Sphinx error; {0}".format(e))
 
     brain(name, speech_text, location)
+    print(f'Bye My friend {name}')
     tts(f'Bye My friend {name}')
 
 

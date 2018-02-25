@@ -3,7 +3,11 @@ import wikipedia
 from features.respond.tts import tts
 
 
-def define_subject(cleaned_message):
+def define_subject(speech_text):
+    # words_of_message = speech_text.split()
+    # words_of_message.remove('define')
+    # cleaned_message = ' '.join(words_of_message)
+    cleaned_message = speech_text.replace('define', '').replace('who are', '').replace('what is', '').strip()
     try:
         wiki_data = wikipedia.summary(cleaned_message, sentences=5)
         print('BEFORE::: ', wiki_data)
