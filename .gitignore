@@ -1,4 +1,4 @@
-# Ignore a test file
+# Ignore a temporary test file
 test.py
 
 # Ignore ubuntu os files
@@ -9,6 +9,7 @@ profile.yaml
 
 # Audio files
 *.wav
+*.mp3
 *.flac
 *.raw
 *.aiff
