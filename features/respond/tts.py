@@ -10,7 +10,7 @@ from pygame import mixer
 from random import randrange
 
 
-def aws_tts(message):
+def tts(message):
     # Create a client using the credentials and region defined in the [adminuser]
     # section of the AWS credentials file (~/.aws/credentials).
     session = Session(
@@ -26,8 +26,9 @@ def aws_tts(message):
                                            VoiceId="Matthew")
     except (BotoCoreError, ClientError) as error:
         # The service returned an error, exit gracefully
-        print('BotoCoreError, ClientError error in aws_tts: ', error)
-        sys.exit(-1)
+        print(error)
+        return tts2(message)
+        # sys.exit(-1)
 
     # Access the audio stream from the response
     if "AudioStream" in response:
@@ -45,7 +46,7 @@ def aws_tts(message):
                     file.write(stream.read())
             except IOError as error:
                 # Could not write to file, exit gracefully
-                print('IOError in aws_tts: ', error)
+                print('IOError in aws tts: ', error)
                 sys.exit(-1)
     else:
         # The response didn't contain audio data, exit gracefully
@@ -69,15 +70,14 @@ def aws_tts(message):
         subprocess.call([opener, output])
 
 
-def tts(message):
+def tts2(message):
     """
     This function takes a message as an argument and converts it to speech
     depending on the OS.
     """
-    aws_tts(message)
-    # if sys.platform == 'darwin':
-    #     tts_engine = 'say'
-    #     return os.system('{} "{}"'.format(tts_engine, message))
-    # elif sys.platform == 'linux2' or sys.platform == 'linux' or sys.platform == 'win32':
-    #     tts_engine = 'espeak'
-    #     return os.system('{} "{}"'.format(tts_engine, message))
+    if sys.platform == 'darwin':
+        tts_engine = 'say'
+        return os.system('{} "{}"'.format(tts_engine, message))
+    elif sys.platform == 'linux2' or sys.platform == 'linux' or sys.platform == 'win32':
+        tts_engine = 'espeak'
+        return os.system('{} "{}"'.format(tts_engine, message))

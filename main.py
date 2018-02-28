@@ -8,10 +8,12 @@ from brain import brain
 # Load profile data
 with open('profile.yaml') as f:
     profile = yaml.safe_load(f)
-name = profile['name']
-location = profile['location']
+bot_name = profile['bot_name']
+username = profile['username']
+location = f"{profile['city']}, {profile['country']}"
 
-tts(f'Hi {name}, I am Jarvis. How can I help you?')
+# Welcome message
+tts(f'Hi {username}, I am {bot_name}. How can I help you?')
 
 
 def main():
@@ -32,7 +34,7 @@ def main():
         # recognize speech using Google Speech Recognition
         try:
             speech_text = r.recognize_google(audio).lower()
-            print(f'Google -Jarvis thinks you said "{speech_text}"')
+            print(f'Google -{bot_name} thinks you said "{speech_text}"')
             break
         except sr.UnknownValueError:
             print("Google Speech Recognition could not understand audio")
@@ -46,7 +48,7 @@ def main():
         BING_KEY = "0d6a77ea6cb648a5a123639dd5b4932b"
         try:
             speech_text = r.recognize_bing(audio, key=BING_KEY).lower()
-            print(f'BING -Jarvis thinks you said "{speech_text}"')
+            print(f'BING -{bot_name} thinks you said "{speech_text}"')
             break
         except sr.UnknownValueError:
             print("Microsoft Bing Voice Recognition could not understand audio")
@@ -61,7 +63,7 @@ def main():
         IBM_PASSWORD = "PMDair8fVjmu"
         try:
             speech_text = r.recognize_ibm(audio, username=IBM_USERNAME, password=IBM_PASSWORD).lower()
-            print(f'IBM -Jarvis thinks you said "{speech_text}"')
+            print(f'IBM -{bot_name} thinks you said "{speech_text}"')
             break
         except sr.UnknownValueError:
             print("IBM Speech to Text could not understand audio")
@@ -72,7 +74,7 @@ def main():
         WIT_AI_KEY = "NCC2OIS54Y2ROFYCJ2XZDZREMXTNTIR5"
         try:
             speech_text = r.recognize_wit(audio, key=WIT_AI_KEY).lower()
-            print(f'WIT -Jarvis thinks you said "{speech_text}"')
+            print(f'WIT -{bot_name} thinks you said "{speech_text}"')
             break
         except sr.UnknownValueError:
             print("Wit.ai could not understand audio")
@@ -82,19 +84,17 @@ def main():
         # recognize speech using Sphinx
         try:
             speech_text = r.recognize_sphinx(audio).lower()
-            print(f'Sphinx -Jarvis thinks you said "{speech_text}"')
+            print(f'Sphinx -{bot_name} thinks you said "{speech_text}"')
             break
         except sr.UnknownValueError:
             print("Sphinx could not understand audio")
         except sr.RequestError as e:
             print("Sphinx error; {0}".format(e))
 
-    brain(name, speech_text, location)
-    print(f'Bye My friend {name}')
-    tts(f'Bye My friend {name}')
+    brain(speech_text, username, location)
+    print(f'Bye My friend {username}')
+    tts(f'Bye My friend {username}')
 
 
 if __name__ == '__main__':
     main()
-
-

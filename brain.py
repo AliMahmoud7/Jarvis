@@ -2,13 +2,15 @@ from features.general_conversations import *
 from features.tell_time import what_is_time
 from features.weather import weather
 from features.define_subject import define_subject
+from features.control_light import control_light
 from wit import Wit
 from pprint import pprint
+from requests.exceptions import ConnectionError
 
 WIT_AI_KEY = "NCC2OIS54Y2ROFYCJ2XZDZREMXTNTIR5"
 
 
-def brain(name, speech_text, location):
+def brain(speech_text, name, location):
     """
     The main function for logic and actions
     :param location:
@@ -20,12 +22,16 @@ def brain(name, speech_text, location):
     def wit():
         """Handling the speech text with wit.ai for artificial actions"""
         client = Wit(access_token=WIT_AI_KEY)
-        resp = client.message(speech_text)
+        try:
+            resp = client.message(speech_text)
+        except ConnectionError as e:
+            print('ConnectionError:', e)
+            return undefined()
         entities = resp.get('entities')
         pprint(resp)
         intent = entities.get('intent')
         on_off = entities.get('on_off')
-        light_color = entities.get('light_color')
+        color = entities.get('color')
         datetime = entities.get('datetime')
         weather_location = entities.get('location')
         greetings = entities.get('greetings')
@@ -37,26 +43,21 @@ def brain(name, speech_text, location):
         if intent:
             intent_value = intent[0].get('value')
             if intent_value == 'lights':
-                color = 'all'
-                if light_color:
-                    color = light_color[0].get('value')
+                light_color = 'all'
+                if color:
+                    light_color = color[0].get('value')
                 elif 'red' in speech_text:
-                    color = 'red'
+                    light_color = 'red'
                 elif 'yellow' in speech_text:
-                    color = 'yellow'
+                    light_color = 'yellow'
                 elif 'blue' in speech_text:
-                    color = 'blue'
+                    light_color = 'blue'
+                elif 'green' in speech_text:
+                    light_color = 'green'
 
                 if on_off:
                     action = on_off[0].get('value')
-                    if action == 'on':
-                        # Control code
-                        print('Control code on')
-                        tts("Oh sorry, I don't have the control code to make this happen")
-                    elif action == 'off':
-                        # Control code
-                        print('Control code off')
-                        tts("Oh sorry, I don't have the control code to make this happen")
+                    control_light(action, light_color)
                 else:
                     undefined()
             elif intent_value == 'weather':
@@ -70,6 +71,7 @@ def brain(name, speech_text, location):
                     query = wikipedia_search_query[0].get('value')
                 define_subject(query)
             elif intent_value == 'doors':
+                # code to control door
                 pass
             elif intent_value == 'news ':
                 # code to view latest news
