@@ -31,7 +31,7 @@ def tell_joke():
 
 
 def who_am_i(name):
-    tts(f'You are {name}, a brilliant person. I love you!')
+    tts('You are {}, a brilliant person. I love you!'.format(name))
 
 
 def where_born():

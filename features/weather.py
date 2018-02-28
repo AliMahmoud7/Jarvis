@@ -32,7 +32,7 @@ def weather(location):
     status = w.get_detailed_status()
     temp = round(w.get_temperature('celsius')['temp'])
 
-    weather_result = f"Now, It is {status} and {temp} degree celsius in {location}"
+    weather_result = "Now, It is {} and {} degree celsius in {}".format(status, temp, location)
     tts(weather_result)
 
     #############################################

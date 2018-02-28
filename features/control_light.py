@@ -62,4 +62,4 @@ def control_light(action, light_color=None):
             GPIO.output(9, False)
             GPIO.output(8, False)
     else:
-        tts("You should tell me explicitly to turn on or off the lights")
+        tts('You should tell me explicitly to turn on or off the lights')
