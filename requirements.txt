@@ -21,9 +21,7 @@ jmespath==0.9.3
 lxml==4.1.1
 macholib==1.9
 mapq==0.3
-matplotlib==2.1.0
 numpy==1.13.3
-oauth2==1.9.0.post1
 olefile==0.44
 opencv-python==3.3.0.10
 pefile==2017.11.5
@@ -40,7 +38,6 @@ PyInstaller==3.3.1
 pyowm==2.8.0
 pyparsing==2.2.0
 pypiwin32==220
-pytesseract==0.2.1
 python-dateutil==2.6.1
 python-http-client==3.0.0
 pyttsx3==2.7
@@ -52,12 +49,10 @@ rsa==3.4.2
 s3transfer==0.1.13
 schedule==0.5.0
 selenium==3.5.0
-sendgrid==5.3.0
 simplejson==3.13.2
 six==1.11.0
 SpeechRecognition==3.8.1
 urllib3==1.22
-Wand==0.4.4
 wcwidth==0.1.7
 wikipedia==1.4.0
 wit==5.0.0
