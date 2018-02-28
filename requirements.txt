@@ -37,7 +37,6 @@ pygame==1.9.3
 PyInstaller==3.3.1
 pyowm==2.8.0
 pyparsing==2.2.0
-pypiwin32==220
 python-dateutil==2.6.1
 python-http-client==3.0.0
 pyttsx3==2.7
@@ -57,3 +56,4 @@ wcwidth==0.1.7
 wikipedia==1.4.0
 wit==5.0.0
 xvfbwrapper==0.2.9
+pypiwin32==220
