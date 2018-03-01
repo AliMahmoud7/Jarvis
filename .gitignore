@@ -4,7 +4,7 @@ test.py
 # Ignore ubuntu os files
 *.*~
 
-profile.yaml
+#profile.yaml
 *.pyc
 
 # Audio files
