@@ -1,9 +1,10 @@
-from time import sleep
+import time
+from features.respond.tts import tts
+
 try:
     import RPi.GPIO as GPIO
 except:
     PI = False
-from features.respond.tts import tts
 
 # Light colors with Pin numbers
 """
@@ -25,12 +26,11 @@ def setup_GPIO():
 def control_light(action, light_color=None):
     """
     Control lights using raspberry pi
-    :param action:
-    :param light_color:
-    :return:
+    :param action: string on/off to turn on or off
+    :param light_color: string contain led color
     """
     if not PI:
-        tts("I can't find the raspberry pi to do the control actions")
+        print("I can't find the raspberry pi to do the control actions")
         return None
     setup_GPIO()
     if action == 'on':

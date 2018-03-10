@@ -49,4 +49,4 @@ def how_are_you():
 
 
 def undefined():
-    tts('I dont know what that means!')
+    tts("I Couldn't understand you")

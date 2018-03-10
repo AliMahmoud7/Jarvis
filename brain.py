@@ -2,10 +2,11 @@ from features.general_conversations import *
 from features.tell_time import what_is_time
 from features.weather import weather
 from features.define_subject import define_subject
-from features.control_light import control_light
+from features.control import control_light
 from wit import Wit
 from pprint import pprint
 from requests.exceptions import ConnectionError
+
 
 WIT_AI_KEY = "NCC2OIS54Y2ROFYCJ2XZDZREMXTNTIR5"
 
@@ -16,7 +17,7 @@ def brain(speech_text, name, location):
     :param location:
     :param name: user name founded in the profile
     :param speech_text:
-    :return: TTS
+    :return: standby state
     """
 
     def wit():
@@ -26,7 +27,8 @@ def brain(speech_text, name, location):
             resp = client.message(speech_text)
         except ConnectionError as e:
             print('ConnectionError:', e)
-            return undefined()
+            undefined()
+            return None
         entities = resp.get('entities')
         pprint(resp)
         intent = entities.get('intent')
@@ -80,6 +82,7 @@ def brain(speech_text, name, location):
                 if datetime:
                     time = datetime[0].get('value')
                     # code to set alarm
+                    tts('Setting alarm at {}'.format(time))
         elif greetings:
             replies = [
                 'Hi',
@@ -87,9 +90,10 @@ def brain(speech_text, name, location):
                 'Hello, How are you?'
             ]
             tts(choice(replies))
-        elif bye:
+        elif bye or on_off[0].get('value') == 'off':
             # code to go sleep
-            pass
+            tts('Bye!, I will go sleep now, Ping me if you need anything')
+            return 'sleep'
         elif thanks:
             replies = [
                 'You are welcome',
@@ -128,5 +132,10 @@ def brain(speech_text, name, location):
         weather(location)
     elif check_message(['define']):
         define_subject(speech_text)
+    elif check_message(['sleep']) or check_message(['bye']):
+        tts('Bye!, I will go sleep now, Ping me if you need anything')
+        return True
     else:
-        wit()
+        state = wit()
+        if state == 'sleep':
+            return True
