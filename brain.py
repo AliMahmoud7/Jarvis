@@ -12,14 +12,18 @@ from requests.exceptions import ConnectionError
 WIT_AI_KEY = "NCC2OIS54Y2ROFYCJ2XZDZREMXTNTIR5"
 
 
-def brain(speech_text, name, location):
+def brain(speech_text, bot_name, username, location):
     """
     The main function for logic and actions
-    :param location:
-    :param name: user name founded in the profile
+    :param location: your location in the profile
+    :param bot_name: bot name in the profile
+    :param username: user name in the profile
     :param speech_text:
     :return: standby state
     """
+
+    if not speech_text:
+        return False
 
     def wit():
         """Handling the speech text with wit.ai for artificial actions"""
@@ -125,13 +129,13 @@ def brain(speech_text, name, location):
             return False
 
     if check_message(['who', 'are', 'you']):
-        who_are_you()
+        who_are_you(bot_name)
     elif check_message(['how', 'i', 'look']) or check_message(['how', 'am', 'i']):
         how_am_i()
     elif check_message(['tell', 'joke']):
         tell_joke()
     elif check_message(['who', 'am', 'i']):
-        who_am_i(name)
+        who_am_i(username)
     elif check_message(['where', 'born']):
         where_born()
     elif check_message(['how', 'are', 'you']):

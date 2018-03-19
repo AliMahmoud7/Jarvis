@@ -2,12 +2,12 @@ from features.respond.tts import tts
 from random import choice
 
 
-def who_are_you():
+def who_are_you(bot_name):
     replies = [
-        'I am Jarvis, your smarter personal assistant.',
-        'Oh, You forget me, I am Jarvis',
-        'I am your friend Jarvis',
-        'Jarvis, didnt I tell you before?'
+        'I am {}, your smarter personal assistant.'.format(bot_name),
+        'Oh, You forget me, I am {}'.format(bot_name),
+        'I am your friend {}'.format(bot_name),
+        "{}, didn't I tell you before?".format(bot_name)
     ]
     tts(choice(replies))
 
@@ -38,12 +38,12 @@ def tell_joke():
     tts(choice(jokes))
 
 
-def who_am_i(name):
-    tts('You are {}, a brilliant person. I love you!'.format(name))
+def who_am_i(username):
+    tts('You are {}, a brilliant person. I love you!'.format(username))
 
 
 def where_born():
-    tts('I was created by a wonderful CSE team as a graduation project in the faulty of Engineering, Minya - Egypt.')
+    tts('I was created by a wonderful CSE team as a graduation project in the faculty of Engineering, Minya - Egypt.')
 
 
 def how_are_you():

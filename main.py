@@ -68,6 +68,7 @@ def recognize():
         return speech_text
     except sr.UnknownValueError:
         print("Microsoft Bing Voice Recognition could not understand audio")
+        return None
     except sr.RequestError as e:
         print("Could not request results from Microsoft Bing Voice Recognition service; {0}".format(e))
 
@@ -81,6 +82,7 @@ def recognize():
         return speech_text
     except sr.UnknownValueError:
         print("IBM Speech to Text could not understand audio")
+        return None
     except sr.RequestError as e:
         print("Could not request results from IBM Speech to Text service; {0}".format(e))
 
@@ -91,6 +93,7 @@ def recognize():
         return speech_text
     except sr.UnknownValueError:
         print("Wit.ai could not understand audio")
+        return None
     except sr.RequestError as e:
         print("Could not request results from Wit.ai service; {0}".format(e))
 
@@ -101,6 +104,7 @@ def recognize():
         return speech_text
     except sr.UnknownValueError:
         print("Sphinx could not understand audio")
+        return None
     except sr.RequestError as e:
         print("Sphinx error; {0}".format(e))
 
@@ -111,7 +115,7 @@ def standby():
     """Make the raspberry pi in the standby state"""
     print('I am in standby state!')
     speech_text = recognize()
-    if 'jarvis' in speech_text:
+    if '{}'.format(bot_name).lower() in speech_text:
         tts('Hi {}, How can I help you?'.format(username))
         control_light('off', 'yellow')
         main()
@@ -123,7 +127,7 @@ def main():
     """Active state"""
     print('I am in active state')
     speech_text = recognize()
-    standby_state = brain(speech_text, username, location)
+    standby_state = brain(speech_text, bot_name, username, location)
     if standby_state:
         tts('Bye!, I will go sleep now, Ping me if you need anything')
         control_light('on', 'yellow')
