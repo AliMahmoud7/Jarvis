@@ -57,6 +57,8 @@ def brain(speech_text, name, location):
                     light_color = 'blue'
                 elif 'green' in speech_text:
                     light_color = 'green'
+                elif 'white' in speech_text:
+                    light_color = 'white'
 
                 if on_off:
                     action = on_off[0].get('value')
@@ -74,36 +76,43 @@ def brain(speech_text, name, location):
                     query = wikipedia_search_query[0].get('value')
                 define_subject(query)
             elif intent_value == 'doors':
+                tts("Oh Sorry! I'm not connected with any doors")
                 # code to control door
-                pass
             elif intent_value == 'news ':
                 # code to view latest news
-                pass
+                get_news()
             elif intent_value == 'alarm':
                 if datetime:
-                    time = datetime[0].get('value')
+                    date, time = datetime[0].get('value').split(',')
                     # code to set alarm
                     tts('Setting alarm at {}'.format(time))
+            elif intent_value == 'temp':
+                tts("Oh Sorry! I can't do that without a temperature sensor!")
+            elif intent_value == 'sleep':
+                return 'sleep'
+            elif intent_value == 'age':
+                tts('Hahaa, I am just a baby who learning how to speak!')
         elif greetings:
             replies = [
-                'Hi',
-                "Hey, What's up",
+                "Hi, How's it going?",
+                "Hey, What's up?",
                 'Hello, How are you?'
             ]
             tts(choice(replies))
-        elif bye or on_off[0].get('value') == 'off':
+        elif bye:
             # code to go sleep
-            tts('Bye!, I will go sleep now, Ping me if you need anything')
+            # tts('Bye!, I will go sleep now, Ping me if you need anything')
             return 'sleep'
         elif thanks:
             replies = [
                 'You are welcome',
-                'anytime',
-                'glad to help'
+                'Anytime',
+                'Glad to help'
             ]
             tts(choice(replies))
         elif reminder:
             to_do_value = reminder[0].get('value')
+            tts('"{}", Successfully added to your TO-DO list'.format(to_do_value))
             # add this value to the database in the TO-DO list
         else:
             undefined()
@@ -130,11 +139,15 @@ def brain(speech_text, name, location):
     elif check_message(['time']):
         what_is_time()
     elif check_message(['weather']):
-        weather(location)
+        try:
+            w_location = speech_text.split('in')[1].strip()
+        except:
+            w_location = location
+        weather(w_location)
     elif check_message(['define']):
         define_subject(speech_text)
     elif check_message(['sleep']) or check_message(['bye']):
-        tts('Bye!, I will go sleep now, Ping me if you need anything')
+        # tts('Bye!, I will go sleep now, Ping me if you need anything')
         return True
     elif check_message(['news']):
         get_news()

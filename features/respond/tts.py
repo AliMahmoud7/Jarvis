@@ -65,9 +65,14 @@ def tts(message):
         # os.startfile(output)
     else:
         # the following works on Mac and Linux. (Darwin = mac, xdg-open = linux).
-        opener = "open" if sys.platform == "darwin" else "xdg-open"
-        print([opener, output])
-        subprocess.call([opener, output])
+        # opener = "open" if sys.platform == "darwin" else "xdg-open"
+        # print([opener, output])
+        # subprocess.call([opener, output])
+        mixer.init()
+        mixer.music.load(output)
+        mixer.music.play()
+        while mixer.music.get_busy():
+            continue
 
 
 def tts2(message):

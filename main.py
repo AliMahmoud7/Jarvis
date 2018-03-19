@@ -15,6 +15,11 @@ bot_name = profile['bot_name']
 username = profile['username']
 location = '{}, {}'.format(profile['city'], profile['country'])
 
+BING_KEY = "0d6a77ea6cb648a5a123639dd5b4932b"
+IBM_USERNAME = "6ce9b92d-21c7-40f2-a7f5-3e89e247b0b7"
+IBM_PASSWORD = "PMDair8fVjmu"
+WIT_AI_KEY = "NCC2OIS54Y2ROFYCJ2XZDZREMXTNTIR5"
+
 # Welcome message
 tts('Hi {}, I am {}. How can I help you?'.format(username, bot_name))
 
@@ -32,7 +37,7 @@ def recognize():
         control_light('off', 'red')
         control_light('on', 'green')
         r.adjust_for_ambient_noise(source)
-        # print("Say something!")
+        print("Say something!")
         audio = r.listen(source)
 
     # write audio to a WAV file
@@ -57,7 +62,6 @@ def recognize():
     # Endpoint: https://api.cognitive.microsoft.com/sts/v1.0
     # Key 1: 0d6a77ea6cb648a5a123639dd5b4932b
     # Key 2: 92cf7a2c73424f31b6424e4148e37e4f
-    BING_KEY = "0d6a77ea6cb648a5a123639dd5b4932b"
     try:
         speech_text = r.recognize_bing(audio, key=BING_KEY).lower()
         print('BING -{} thinks you said "{}"'.format(bot_name, speech_text))
@@ -71,8 +75,6 @@ def recognize():
     # "url": "https://stream.watsonplatform.net/speech-to-text/api"
     # "username": "6ce9b92d-21c7-40f2-a7f5-3e89e247b0b7"
     # "password": "PMDair8fVjmu"
-    IBM_USERNAME = "6ce9b92d-21c7-40f2-a7f5-3e89e247b0b7"
-    IBM_PASSWORD = "PMDair8fVjmu"
     try:
         speech_text = r.recognize_ibm(audio, username=IBM_USERNAME, password=IBM_PASSWORD).lower()
         print('IBM -{} thinks you said "{}"'.format(bot_name, speech_text))
@@ -83,7 +85,6 @@ def recognize():
         print("Could not request results from IBM Speech to Text service; {0}".format(e))
 
     # recognize speech using Wit.ai
-    WIT_AI_KEY = "NCC2OIS54Y2ROFYCJ2XZDZREMXTNTIR5"
     try:
         speech_text = r.recognize_wit(audio, key=WIT_AI_KEY).lower()
         print('WIT -{} thinks you said "{}"'.format(bot_name, speech_text))
@@ -108,10 +109,11 @@ def recognize():
 
 def standby():
     """Make the raspberry pi in the standby state"""
-    tts('I am in standby state!')
+    print('I am in standby state!')
     speech_text = recognize()
     if 'jarvis' in speech_text:
-        tts('Hi Sir, How can I help you?')
+        tts('Hi {}, How can I help you?'.format(username))
+        control_light('off', 'yellow')
         main()
     else:
         standby()
@@ -119,10 +121,12 @@ def standby():
 
 def main():
     """Active state"""
-    tts('I am in active state')
+    print('I am in active state')
     speech_text = recognize()
     standby_state = brain(speech_text, username, location)
     if standby_state:
+        tts('Bye!, I will go sleep now, Ping me if you need anything')
+        control_light('on', 'yellow')
         standby()
     else:
         time.sleep(3)
