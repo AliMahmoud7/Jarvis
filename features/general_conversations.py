@@ -48,9 +48,9 @@ def where_born():
 
 def how_are_you():
     replies = [
-        'I am fine, thank you.',
+        'I am fine, Thank you.',
         'Pretty good',
-        'Cannt be better',
+        "Can't be better",
         'Not bad'
     ]
     tts(choice(replies))

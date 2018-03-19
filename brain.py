@@ -85,17 +85,26 @@ def brain(speech_text, bot_name, username, location):
             elif intent_value == 'news ':
                 # code to view latest news
                 get_news()
+            elif intent_value == 'welcome':
+                how_are_you()
             elif intent_value == 'alarm':
+                # code to set alarm
+                replay = "I can't set the alarm, please try again"
                 if datetime:
-                    date, time = datetime[0].get('value').split(',')
-                    # code to set alarm
-                    tts('Setting alarm at {}'.format(time))
+                    try:
+                        date, time = datetime[0].get('value').split('T')
+                        print('date is', date)
+                        print('time is: ', time)
+                        replay = 'Setting alarm at {}'.format(time[:5])
+                    except:
+                        pass
+                tts(replay)
             elif intent_value == 'temp':
                 tts("Oh Sorry! I can't do that without a temperature sensor!")
             elif intent_value == 'sleep':
                 return 'sleep'
             elif intent_value == 'age':
-                tts('Hahaa, I am just a baby who learning how to speak!')
+                tts('Hahaaaa, I am just a baby who learning how to speak!')
         elif greetings:
             replies = [
                 "Hi, How's it going?",
@@ -138,8 +147,8 @@ def brain(speech_text, bot_name, username, location):
         who_am_i(username)
     elif check_message(['where', 'born']):
         where_born()
-    elif check_message(['how', 'are', 'you']):
-        how_are_you()
+    # elif check_message(['how', 'are', 'you']):
+    #     how_are_you()
     elif check_message(['time']):
         what_is_time()
     elif check_message(['weather']):

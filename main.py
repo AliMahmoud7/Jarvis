@@ -115,7 +115,7 @@ def standby():
     """Make the raspberry pi in the standby state"""
     print('I am in standby state!')
     speech_text = recognize()
-    if '{}'.format(bot_name).lower() in speech_text:
+    if speech_text and '{}'.format(bot_name).lower() in speech_text:
         tts('Hi {}, How can I help you?'.format(username))
         control_light('off', 'yellow')
         main()
@@ -127,13 +127,16 @@ def main():
     """Active state"""
     print('I am in active state')
     speech_text = recognize()
-    standby_state = brain(speech_text, bot_name, username, location)
-    if standby_state:
-        tts('Bye!, I will go sleep now, Ping me if you need anything')
-        control_light('on', 'yellow')
-        standby()
+    if speech_text:
+        standby_state = brain(speech_text, bot_name, username, location)
+        if standby_state:
+            tts('Bye!, I will go sleep now, Ping me if you need anything')
+            control_light('on', 'yellow')
+            standby()
+        else:
+            time.sleep(3)
+            main()
     else:
-        time.sleep(3)
         main()
 
     # print('Bye My friend {}'.format(username))
