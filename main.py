@@ -29,10 +29,10 @@ def recognize():
     r = sr.Recognizer()
     with sr.Microphone() as source:
         # listen for 1 second to calibrate the energy threshold for ambient noise levels
-        r.adjust_for_ambient_noise(source)
         control_light('off', 'red')
         control_light('on', 'green')
-        print("Say something!")
+        r.adjust_for_ambient_noise(source)
+        # print("Say something!")
         audio = r.listen(source)
 
     # write audio to a WAV file

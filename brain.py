@@ -3,6 +3,7 @@ from features.tell_time import what_is_time
 from features.weather import weather
 from features.define_subject import define_subject
 from features.control import control_light
+from features. news import get_news
 from wit import Wit
 from pprint import pprint
 from requests.exceptions import ConnectionError
@@ -135,6 +136,8 @@ def brain(speech_text, name, location):
     elif check_message(['sleep']) or check_message(['bye']):
         tts('Bye!, I will go sleep now, Ping me if you need anything')
         return True
+    elif check_message(['news']):
+        get_news()
     else:
         state = wit()
         if state == 'sleep':
