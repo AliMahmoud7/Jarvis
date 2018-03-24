@@ -2,7 +2,7 @@
 
 import requests
 import pyowm
-from darksky import forecast
+# from darksky import forecast
 from features.respond.tts import tts
 
 google_api_key = 'AIzaSyBoH7qwxOf6z-QQQL84iKXMGS__ZOHsVog'
