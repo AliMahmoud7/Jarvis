@@ -5,8 +5,10 @@ import yaml
 from features.respond.tts import tts
 from brain import brain
 import time
+import os
 from features.control import control_light
 
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 # Load profile data
 with open('profile.yaml') as f:
@@ -14,6 +16,8 @@ with open('profile.yaml') as f:
 bot_name = profile['bot_name']
 username = profile['username']
 location = '{}, {}'.format(profile['city'], profile['country'])
+music_path = os.path.join(BASE_DIR, profile['music_path'])
+images_path = os.path.join(BASE_DIR, profile['images_path'])
 
 BING_KEY = "0d6a77ea6cb648a5a123639dd5b4932b"
 IBM_USERNAME = "6ce9b92d-21c7-40f2-a7f5-3e89e247b0b7"
@@ -128,7 +132,7 @@ def main():
     print('I am in active state')
     speech_text = recognize()
     if speech_text:
-        standby_state = brain(speech_text, bot_name, username, location)
+        standby_state = brain(speech_text, bot_name, username, location, music_path, images_path)
         if standby_state:
             tts('Bye!, I will go sleep now, Ping me if you need anything')
             control_light('on', 'yellow')

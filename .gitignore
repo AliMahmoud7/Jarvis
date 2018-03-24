@@ -14,6 +14,13 @@ test.py
 *.raw
 *.aiff
 
+# Image files
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+
 #IDE configuration
 .idea/*
 workspace.xml

@@ -3,16 +3,24 @@ from features.tell_time import what_is_time
 from features.weather import weather
 from features.define_subject import define_subject
 from features.control import control_light
-from features. news import get_news
+from features.news import get_news
 from wit import Wit
 from pprint import pprint
 from requests.exceptions import ConnectionError
 
+#
+from features.twitter_interaction import post_tweet
+from features.imgur_handler import image_uploader, show_all_uploads
+from features.business_news_reader import news_reader
+from features.play_music import play_random, play_specific_music, play_shuffle
+from features.notes import note_something, show_all_notes
+from features.open_firefox import open_firefox
+#
 
 WIT_AI_KEY = "NCC2OIS54Y2ROFYCJ2XZDZREMXTNTIR5"
 
 
-def brain(speech_text, bot_name, username, location):
+def brain(speech_text, bot_name, username, location, music_path, images_path):
     """
     The main function for logic and actions
     :param location: your location in the profile
@@ -164,6 +172,33 @@ def brain(speech_text, bot_name, username, location):
         return True
     elif check_message(['news']):
         get_news()
+
+    # kareem
+    elif check_message(['tweet']):
+        post_tweet(speech_text)
+    elif check_message(['upload']):
+        image_uploader(speech_text, images_path)
+    elif check_message(['all', 'uploads']) or check_message(['all', 'images']) or check_message(['uploads']):
+        show_all_uploads()
+    #
+
+    # khaled
+    elif check_message(['business', 'news']):
+        news_reader()
+    elif check_message(['play', 'music']) or check_message(['music']):
+        play_random(music_path)
+    elif check_message(['play']):
+        play_specific_music(speech_text, music_path)
+    elif check_message(['party', 'time']) or check_message(['party', 'mix']):
+        play_shuffle(music_path)
+    elif check_message(['note']):
+        note_something(speech_text)
+    elif check_message(['all', 'notes']) or check_message(['notes']):
+        show_all_notes()
+    elif check_message(['open', 'firefox']):
+        open_firefox()
+    #
+
     else:
         state = wit()
         if state == 'sleep':
