@@ -11,10 +11,10 @@ from requests.exceptions import ConnectionError
 #
 from features.twitter_interaction import post_tweet
 from features.imgur_handler import image_uploader, show_all_uploads
-from features.business_news_reader import news_reader
+#from features.business_news_reader import news_reader
 from features.play_music import play_random, play_specific_music, play_shuffle
 from features.notes import note_something, show_all_notes
-from features.open_firefox import open_firefox
+#from features.open_firefox import open_firefox
 #
 
 WIT_AI_KEY = "NCC2OIS54Y2ROFYCJ2XZDZREMXTNTIR5"
@@ -183,8 +183,8 @@ def brain(speech_text, bot_name, username, location, music_path, images_path):
     #
 
     # khaled
-    elif check_message(['business', 'news']):
-        news_reader()
+    #elif check_message(['business', 'news']):
+    #    news_reader()
     elif check_message(['play', 'music']) or check_message(['music']):
         play_random(music_path)
     elif check_message(['play']):
@@ -195,8 +195,8 @@ def brain(speech_text, bot_name, username, location, music_path, images_path):
         note_something(speech_text)
     elif check_message(['all', 'notes']) or check_message(['notes']):
         show_all_notes()
-    elif check_message(['open', 'firefox']):
-        open_firefox()
+    #elif check_message(['open', 'firefox']):
+    #    open_firefox()
     #
 
     else:

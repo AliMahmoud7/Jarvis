@@ -6,7 +6,26 @@ from features.respond.tts import tts
 from brain import brain
 import time
 import os
+import sys
 from features.control import control_light
+
+if sys.platform == 'linux' or sys.platform == 'linux2':
+    # Suppress ALSA lib error messages
+    from ctypes import *
+
+    # Define our error handler type
+    ERROR_HANDLER_FUNC = CFUNCTYPE(None, c_char_p, c_int, c_char_p, c_int, c_char_p)
+
+
+    def py_error_handler(filename, line, function, err, fmt):
+        pass
+
+
+    c_error_handler = ERROR_HANDLER_FUNC(py_error_handler)
+    asound = cdll.LoadLibrary('libasound.so')
+    # Set error handler
+    asound.snd_lib_error_set_handler(c_error_handler)
+
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
@@ -16,8 +35,8 @@ with open('profile.yaml') as f:
 bot_name = profile['bot_name']
 username = profile['username']
 location = '{}, {}'.format(profile['city'], profile['country'])
-music_path = os.path.join(BASE_DIR, profile['music_path'])
-images_path = os.path.join(BASE_DIR, profile['images_path'])
+music_path = os.path.join(BASE_DIR, profile['music_dir'])
+images_path = os.path.join(BASE_DIR, profile['images_dir'])
 
 BING_KEY = "0d6a77ea6cb648a5a123639dd5b4932b"
 IBM_USERNAME = "6ce9b92d-21c7-40f2-a7f5-3e89e247b0b7"
@@ -27,16 +46,22 @@ WIT_AI_KEY = "NCC2OIS54Y2ROFYCJ2XZDZREMXTNTIR5"
 # Welcome message
 tts('Hi {}, I am {}. How can I help you?'.format(username, bot_name))
 
+# Check Microphone index
+print('-------------------------------------------------------------------------------')
+for index, name in enumerate(sr.Microphone.list_microphone_names()):
+    print("Microphone with name \"{1}\" found for `Microphone(device_index={0})`".format(index, name))
+print('-------------------------------------------------------------------------------')
+
 
 def recognize():
     """
     Handling the Speech to text recognition (STT)
     :return: speech text (a string)
     """
-
+    
     # obtain audio from the microphone
     r = sr.Recognizer()
-    with sr.Microphone() as source:
+    with sr.Microphone(device_index=1) as source:
         # listen for 1 second to calibrate the energy threshold for ambient noise levels
         control_light('off', 'red')
         control_light('on', 'green')
