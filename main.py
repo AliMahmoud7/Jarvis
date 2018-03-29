@@ -28,6 +28,7 @@ if sys.platform == 'linux' or sys.platform == 'linux2':
 
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+RECOGNIZE_ERRORS = 0
 
 # Load profile data
 with open('profile.yaml') as f:
@@ -38,18 +39,23 @@ location = '{}, {}'.format(profile['city'], profile['country'])
 music_path = os.path.join(BASE_DIR, profile['music_dir'])
 images_path = os.path.join(BASE_DIR, profile['images_dir'])
 
-BING_KEY = "0d6a77ea6cb648a5a123639dd5b4932b"
+BING_KEY = "92cf7a2c73424f31b6424e4148e37e4f"
 IBM_USERNAME = "6ce9b92d-21c7-40f2-a7f5-3e89e247b0b7"
 IBM_PASSWORD = "PMDair8fVjmu"
 WIT_AI_KEY = "NCC2OIS54Y2ROFYCJ2XZDZREMXTNTIR5"
 
 # Welcome message
-tts('Hi {}, I am {}. How can I help you?'.format(username, bot_name))
+tts('Hi {}, I am {}. Call me if you need anything?'.format(username, bot_name))
 
 # Check Microphone index
+device_index = 0
 print('-------------------------------------------------------------------------------')
 for index, name in enumerate(sr.Microphone.list_microphone_names()):
     print("Microphone with name \"{1}\" found for `Microphone(device_index={0})`".format(index, name))
+    if "USB PnP Sound".lower() in name.lower():
+        device_index = index
+        break
+print('device_index: ', device_index)
 print('-------------------------------------------------------------------------------')
 
 
@@ -61,7 +67,7 @@ def recognize():
     
     # obtain audio from the microphone
     r = sr.Recognizer()
-    with sr.Microphone(device_index=1) as source:
+    with sr.Microphone(device_index=device_index) as source:
         # listen for 1 second to calibrate the energy threshold for ambient noise levels
         control_light('off', 'red')
         control_light('on', 'green')
@@ -73,7 +79,7 @@ def recognize():
     # with open("microphone-results.wav", "wb") as f:
     #     f.write(audio.get_wav_data())
 
-    speech_text = ''
+    speech_text = None
     control_light('on', 'red')
     control_light('off', 'green')
 
@@ -84,22 +90,9 @@ def recognize():
         return speech_text
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand audio")
-    except sr.RequestError as e:
-        print("Could not request results from Google Speech Recognition service; {0}".format(e))
-
-    # recognize speech using Microsoft Bing Voice Recognition
-    # Endpoint: https://api.cognitive.microsoft.com/sts/v1.0
-    # Key 1: 0d6a77ea6cb648a5a123639dd5b4932b
-    # Key 2: 92cf7a2c73424f31b6424e4148e37e4f
-    try:
-        speech_text = r.recognize_bing(audio, key=BING_KEY).lower()
-        print('BING -{} thinks you said "{}"'.format(bot_name, speech_text))
-        return speech_text
-    except sr.UnknownValueError:
-        print("Microsoft Bing Voice Recognition could not understand audio")
         return None
     except sr.RequestError as e:
-        print("Could not request results from Microsoft Bing Voice Recognition service; {0}".format(e))
+        print("Could not request results from Google Speech Recognition service; {0}".format(e))
 
     # recognize speech using IBM Speech to Text
     # "url": "https://stream.watsonplatform.net/speech-to-text/api"
@@ -114,6 +107,20 @@ def recognize():
         return None
     except sr.RequestError as e:
         print("Could not request results from IBM Speech to Text service; {0}".format(e))
+
+    # recognize speech using Microsoft Bing Voice Recognition
+    # Endpoint: https://api.cognitive.microsoft.com/sts/v1.0
+    # Key 1: 0d6a77ea6cb648a5a123639dd5b4932b
+    # Key 2: 92cf7a2c73424f31b6424e4148e37e4f
+    try:
+        speech_text = r.recognize_bing(audio, key=BING_KEY).lower()
+        print('BING -{} thinks you said "{}"'.format(bot_name, speech_text))
+        return speech_text
+    except sr.UnknownValueError:
+        print("Microsoft Bing Voice Recognition could not understand audio")
+        return None
+    except sr.RequestError as e:
+        print("Could not request results from Microsoft Bing Voice Recognition service; {0}".format(e))
 
     # recognize speech using Wit.ai
     try:
@@ -144,33 +151,42 @@ def standby():
     """Make the raspberry pi in the standby state"""
     print('I am in standby state!')
     speech_text = recognize()
-    if speech_text and '{}'.format(bot_name).lower() in speech_text:
-        tts('Hi {}, How can I help you?'.format(username))
-        control_light('off', 'yellow')
-        main()
+    if speech_text:
+        if '{}'.format(bot_name).lower() in speech_text:
+            tts('Hi {}, How can I help you?'.format(username))
+            control_light('off', 'yellow')
+            return main()
+        else:
+            tts("Just call my name")
+            standby()
     else:
+        time.sleep(5)
         standby()
 
 
 def main():
     """Active state"""
+    global RECOGNIZE_ERRORS
     print('I am in active state')
+
     speech_text = recognize()
     if speech_text:
         standby_state = brain(speech_text, bot_name, username, location, music_path, images_path)
         if standby_state:
             tts('Bye!, I will go sleep now, Ping me if you need anything')
             control_light('on', 'yellow')
-            standby()
+            return standby()
         else:
             time.sleep(3)
             main()
     else:
+        tts("I couldn't understand your audio, Try to say something!")
+        RECOGNIZE_ERRORS += 1
         main()
 
-    # print('Bye My friend {}'.format(username))
     # tts('Bye My friend {}'.format(username))
 
 
 if __name__ == '__main__':
-    main()
+    # main()
+    standby()

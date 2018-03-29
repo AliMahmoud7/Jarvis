@@ -53,7 +53,7 @@ def brain(speech_text, bot_name, username, location, music_path, images_path):
         thanks = entities.get('thanks')
         bye = entities.get('bye')
         wikipedia_search_query = entities.get('wikipedia_search_query')
-        reminder = entities.get('reminder')
+        # reminder = entities.get('reminder')
 
         if intent:
             intent_value = intent[0].get('value')
@@ -131,10 +131,6 @@ def brain(speech_text, bot_name, username, location, music_path, images_path):
                 'Glad to help'
             ]
             tts(choice(replies))
-        elif reminder:
-            to_do_value = reminder[0].get('value')
-            tts('"{}", Successfully added to your TO-DO list'.format(to_do_value))
-            # add this value to the database in the TO-DO list
         else:
             undefined()
 
@@ -161,7 +157,7 @@ def brain(speech_text, bot_name, username, location, music_path, images_path):
         what_is_time()
     elif check_message(['weather']):
         try:
-            w_location = speech_text.split('in')[1].strip()
+            w_location = speech_text.split(' in ')[1].strip()
         except:
             w_location = location
         weather(w_location)
@@ -172,6 +168,13 @@ def brain(speech_text, bot_name, username, location, music_path, images_path):
         return True
     elif check_message(['news']):
         get_news()
+    elif check_message(['remind']):
+        words = speech_text.split()
+        for word in words[:3]:
+            if word == 'remind' or word == 'me' or word == 'to':
+                words.remove(word)
+        clean_msg = ' '.join(words)
+        tts('"{}", Successfully added to your TO-DO list'.format(clean_msg))
 
     # kareem
     elif check_message(['tweet']):
