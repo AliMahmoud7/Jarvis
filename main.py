@@ -157,7 +157,7 @@ def standby():
             control_light('off', 'yellow')
             return main()
         else:
-            tts("Just call my name")
+            # tts("Just call my name")
             standby()
     else:
         time.sleep(5)
@@ -180,7 +180,7 @@ def main():
             time.sleep(3)
             main()
     else:
-        tts("I couldn't understand your audio, Try to say something!")
+        # tts("I couldn't understand your audio, Try to say something!")
         RECOGNIZE_ERRORS += 1
         main()
 
