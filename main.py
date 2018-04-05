@@ -45,7 +45,7 @@ IBM_PASSWORD = "PMDair8fVjmu"
 WIT_AI_KEY = "NCC2OIS54Y2ROFYCJ2XZDZREMXTNTIR5"
 
 # Welcome message
-tts('Hi {}, I am {}. Call me if you need anything?'.format(username, bot_name))
+tts('Hi {}, I am {}. How can I help you?'.format(username, bot_name))
 
 # Check Microphone index
 device_index = 0
@@ -68,9 +68,9 @@ def recognize():
     # obtain audio from the microphone
     r = sr.Recognizer()
     with sr.Microphone(device_index=device_index) as source:
-        # listen for 1 second to calibrate the energy threshold for ambient noise levels
         control_light('off', 'red')
         control_light('on', 'green')
+        # listen for 1 second to calibrate the energy threshold for ambient noise levels
         r.adjust_for_ambient_noise(source)
         print("Say something!")
         audio = r.listen(source)
@@ -158,10 +158,10 @@ def standby():
             return main()
         else:
             # tts("Just call my name")
-            standby()
+            return standby()
     else:
         time.sleep(5)
-        standby()
+        return standby()
 
 
 def main():
@@ -178,15 +178,15 @@ def main():
             return standby()
         else:
             time.sleep(3)
-            main()
+            return main()
     else:
         # tts("I couldn't understand your audio, Try to say something!")
         RECOGNIZE_ERRORS += 1
-        main()
+        return main()
 
     # tts('Bye My friend {}'.format(username))
 
 
 if __name__ == '__main__':
-    # main()
-    standby()
+    main()
+    # standby()
