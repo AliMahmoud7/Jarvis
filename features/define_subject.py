@@ -20,7 +20,7 @@ def define_subject(speech_text):
     cleaned_message = ' '.join(words)
 
     try:
-        wiki_data = wikipedia.summary(cleaned_message, sentences=3)
+        wiki_data = wikipedia.summary(cleaned_message, sentences=5)
         print('BEFORE::: ', wiki_data)
         regEx = re.compile(r'([^\(]*)\([^\)]*\) *(.*)')
         m = regEx.match(wiki_data)

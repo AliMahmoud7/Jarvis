@@ -112,7 +112,7 @@ def brain(speech_text, bot_name, username, location, music_path, images_path):
             elif intent_value == 'sleep':
                 return 'sleep'
             elif intent_value == 'age':
-                tts('Hahaaaa, I am just a baby who learning how to speak!')
+                tts('Oh! I am just a baby who learning how to speak!')
         elif greetings:
             replies = [
                 "Hi, How's it going?",
