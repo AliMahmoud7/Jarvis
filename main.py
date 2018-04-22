@@ -73,7 +73,7 @@ def recognize():
         # listen for 1 second to calibrate the energy threshold for ambient noise levels
         r.adjust_for_ambient_noise(source)
         print("Say something!")
-        audio = r.listen(source, phrase_time_limit=7)
+        audio = r.listen(source, phrase_time_limit=5)
 
     # write audio to a WAV file
     # with open("microphone-results.wav", "wb") as f:
