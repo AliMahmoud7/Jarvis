@@ -9,13 +9,13 @@ test.py
 
 # Audio files
 *.wav
-*.mp3
+#*.mp3
 *.flac
 *.raw
 *.aiff
 
 # Image files
-*.jpg
+#*.jpg
 *.jpeg
 *.png
 *.gif
