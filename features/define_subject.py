@@ -21,7 +21,6 @@ def define_subject(speech_text):
 
     try:
         wiki_data = wikipedia.summary(cleaned_message, sentences=5)
-        print('BEFORE::: ', wiki_data)
         regEx = re.compile(r'([^\(]*)\([^\)]*\) *(.*)')
         m = regEx.match(wiki_data)
         while m:
@@ -29,9 +28,9 @@ def define_subject(speech_text):
             m = regEx.match(wiki_data)
         print('AFTER::: ', wiki_data)
         wiki_data = wiki_data.replace("'", "")
-        tts(wiki_data)
+        return tts(wiki_data)
     except wikipedia.exceptions.DisambiguationError as e:
-        tts('Can you please be more specific? You may choose something from the following.')
         print("Can you please be more specific? You may choose something from the following.; {0}".format(e))
+        return tts('Can you please be more specific? You may choose something from the following.')
     except wikipedia.exceptions.PageError:
-        tts('Page id "{}" does not match any pages. Try another id!'.format(cleaned_message))
+        return tts('Page id "{}" does not match any pages. Try another id!'.format(cleaned_message))

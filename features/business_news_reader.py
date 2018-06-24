@@ -36,3 +36,4 @@ def news_reader():
     for key, value in news_dictionary.items():
         tts('Headline, ' + key)
         tts('News, ' + value)
+    return None

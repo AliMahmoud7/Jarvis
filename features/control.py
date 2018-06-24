@@ -38,12 +38,14 @@ def control_light(action, light_color=None):
     if action == 'on':
         if light_color == 'red':
             GPIO.output(RED_PIN, True)
+            return tts('{} light {}.'.format(light_color, action))
         elif light_color == 'green':
             GPIO.output(GREEN_PIN, True)
         elif light_color == 'yellow':
             GPIO.output(YELLOW_PIN, True)
         elif light_color == 'blue':
             GPIO.output(BLUE_PIN, True)
+            return tts('{} light {}.'.format(light_color, action))
         else:
             GPIO.output(RED_PIN, True)
             GPIO.output(GREEN_PIN, True)
@@ -52,16 +54,18 @@ def control_light(action, light_color=None):
     elif action == 'off':
         if light_color == 'red':
             GPIO.output(RED_PIN, False)
+            return tts('{} light {}.'.format(light_color, action))
         elif light_color == 'green':
             GPIO.output(GREEN_PIN, False)
         elif light_color == 'yellow':
             GPIO.output(YELLOW_PIN, False)
         elif light_color == 'blue':
             GPIO.output(BLUE_PIN, False)
+            return tts('{} light {}.'.format(light_color, action))
         else:
             GPIO.output(RED_PIN, False)
             GPIO.output(GREEN_PIN, False)
             GPIO.output(YELLOW_PIN, False)
             GPIO.output(BLUE_PIN, False)
     else:
-        tts('You should tell me explicitly to turn on or off the lights')
+        return tts('You should tell me explicitly to turn on or off the lights')

@@ -32,8 +32,7 @@ def weather(location):
     status = w.get_detailed_status()
     temp = round(w.get_temperature('celsius')['temp'])
 
-    weather_result = "Now, It is {} and {} degree celsius in {}".format(status, temp, location)
-    tts(weather_result)
+    return tts("Now, It is {} and {} degree celsius in {}".format(status, temp, location))
 
     #############################################
     # with forecast(Dark_Sky_API_KEY, lat, lng) as boston:

@@ -3,7 +3,7 @@ import sys
 from boto3 import Session
 from botocore.exceptions import BotoCoreError, ClientError
 from contextlib import closing
-import subprocess
+# import subprocess
 from tempfile import gettempdir
 from playsound import playsound
 from pygame import mixer
@@ -61,7 +61,7 @@ def tts(message):
         # mixer.music.play()
         # while mixer.music.get_busy():
         #     continue
-        playsound(output)
+        return playsound(output)
         # os.startfile(output)
     else:
         # the following works on Mac and Linux. (Darwin = mac, xdg-open = linux).
@@ -73,6 +73,7 @@ def tts(message):
         mixer.music.play()
         while mixer.music.get_busy():
             continue
+        return None
 
 
 def tts2(message):

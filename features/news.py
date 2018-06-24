@@ -18,3 +18,4 @@ def get_news():
         for article in articles:
             print(article['title'])
             tts(article['title'])
+    return None

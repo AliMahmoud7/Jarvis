@@ -45,10 +45,10 @@ def play_random(music_path):
         music_playing = random.choice(music_listing)
         print('music_playing: ', music_playing)
         tts("Now playing your music!")
-        music_player(music_playing)
+        return music_player(music_playing)
     except IndexError as e:
-        tts('No music files found.')
         print("No music files found: {0}".format(e))
+        return tts('No music files found.')
 
 
 def play_specific_music(speech_text, music_path):
@@ -59,7 +59,7 @@ def play_specific_music(speech_text, music_path):
 
     for i in range(0, len(music_listing)):
         if cleaned_message in music_listing[i]:
-            music_player(music_listing[i])
+            return music_player(music_listing[i])
 
 
 def play_shuffle(music_path):
@@ -67,7 +67,7 @@ def play_shuffle(music_path):
         music_listing = mp3gen(music_path)
         random.shuffle(music_listing)
         for i in range(0, len(music_listing)):
-            music_player(music_listing[i])
+            return music_player(music_listing[i])
     except IndexError as e:
-        tts('No music files found.')
         print("No music files found: {0}".format(e))
+        return tts('No music files found.')

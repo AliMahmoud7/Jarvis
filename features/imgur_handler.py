@@ -34,7 +34,7 @@ def image_uploader(speech_text, images_path):
             conn.commit()
             conn.close()
             print(result['link'])
-            tts('Your image has been uploaded')
+            return tts('Your image has been uploaded')
 
 
 def show_all_uploads():
@@ -44,3 +44,4 @@ def show_all_uploads():
         print(row[0] + ': (' + row[1] + ') on ' + row[2])
     tts('Requested data has been printed on your terminal')
     conn.close()
+    return

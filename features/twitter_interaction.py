@@ -17,6 +17,6 @@ def post_tweet(speech_text):
     print('cleaned msg: ', cleaned_message)
     api.update_status(status=cleaned_message)
 
-    tts('Your tweet has been posted on your twitter account')
+    return tts('Your tweet has been posted on your twitter account')
 
 # post_tweet(speech_text, consumer_key, consumer_secret, access_token, access_token_secret)

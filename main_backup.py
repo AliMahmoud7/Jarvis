@@ -155,7 +155,7 @@ def recognize():
 
 
 def standby():
-    """Make the raspberry pi in the standby (sleep) state"""
+    """Make the raspberry pi in the standby state"""
     print('I am in standby state!')
     speech_text = recognize()
     if speech_text:
@@ -163,22 +163,24 @@ def standby():
 
         # CHECK THIS?
         for word in replies:
-            if word in speech_text.split():
-                return True
+            if word in speech_text:
+                tts('Hi {}, How can I help you?'.format(username))
+                control_light('off', 'yellow')
+                return main()
                 # break
         else:
-            return False
+            return standby()
 
-        """
-        if '{}'.format(bot_name).lower() in speech_text.split() or 'hi' in speech_text.split():
-            return True
+        if '{}'.format(bot_name).lower() in speech_text:
+            tts('Hi {}, How can I help you?'.format(username))
+            control_light('off', 'yellow')
+            return main()
         else:
             # tts("Just call my name")
-            return False
-        """
+            return standby()
     else:
         time.sleep(5)
-        return False
+        return standby()
 
 
 def main():
@@ -190,37 +192,23 @@ def main():
     if speech_text:
         standby_state = brain(speech_text, bot_name, username, location, music_path, images_path)
         if standby_state == 0:
-            return True
+            tts('Bye!, I will go sleep now, Ping me if you need anything')
+            control_light('on', 'yellow')
+            return standby()
         else:
-            time.sleep(2)
-            tts('I am listening. You can ask me again.')
-            return False
+            time.sleep(3)
+            return main()
     else:
         # tts("I couldn't understand your audio, Try to say something!")
         RECOGNIZE_ERRORS += 1
-        return False
+        return main()
+
+    # tts('Bye My friend {}'.format(username))
 
 
 if __name__ == '__main__':
     # Welcome message
     tts('Hi {}, I am {}. How can I help you?'.format(username, bot_name))
 
-    sleep_mode = main()
-    while True:
-        if sleep_mode:
-            tts('Bye!, I will go sleep now, Ping me if you need anything')
-            control_light('on', 'yellow')
-
-            active_mode = standby()
-            while True:
-                if active_mode:
-                    tts('Hi {}, How can I help you?'.format(username))
-                    control_light('off', 'yellow')
-                    sleep_mode = main()
-                    break
-                else:
-                    active_mode = standby()
-        else:
-            sleep_mode = main()
-
-    # tts('Bye My friend {}'.format(username))
+    main()
+    # standby()

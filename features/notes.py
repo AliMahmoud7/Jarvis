@@ -14,6 +14,7 @@ def show_all_notes():
         tts(row[0])
 
     conn.close()
+    return None
 
 
 def note_something(speech_text):
@@ -27,4 +28,4 @@ def note_something(speech_text):
     conn.commit()
     conn.close()
 
-    tts('Your note has been saved.')
+    return tts('Your note has been saved.')
