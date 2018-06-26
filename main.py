@@ -181,7 +181,7 @@ def standby():
         return False
 
 
-def main():
+def active():
     """Active state"""
     global RECOGNIZE_ERRORS
     print('I am in active state')
@@ -192,7 +192,7 @@ def main():
         if standby_state == 0:
             return True
         else:
-            time.sleep(2)
+            time.sleep(1)
             tts('I am listening. You can ask me again.')
             return False
     else:
@@ -205,7 +205,7 @@ if __name__ == '__main__':
     # Welcome message
     tts('Hi {}, I am {}. How can I help you?'.format(username, bot_name))
 
-    sleep_mode = main()
+    sleep_mode = active()
     while True:
         if sleep_mode:
             tts('Bye!, I will go sleep now, Ping me if you need anything')
@@ -216,11 +216,11 @@ if __name__ == '__main__':
                 if active_mode:
                     tts('Hi {}, How can I help you?'.format(username))
                     control_light('off', 'yellow')
-                    sleep_mode = main()
+                    sleep_mode = active()
                     break
                 else:
                     active_mode = standby()
         else:
-            sleep_mode = main()
+            sleep_mode = active()
 
     # tts('Bye My friend {}'.format(username))
