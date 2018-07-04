@@ -1,20 +1,20 @@
-from features.respond.tts import tts
+from .features.respond.tts import tts
 from random import choice
 from datetime import datetime
-from features.control import control_light
-from features.weather import weather
-from features.define_subject import define_subject
-from features.news import get_news
+from .features.control import control_light
+from .features.weather import weather
+from .features.define_subject import define_subject
+from .features.news import get_news
 from wit import Wit
 from pprint import pprint
 from requests.exceptions import ConnectionError
 
 #
-from features.twitter_interaction import post_tweet
-from features.imgur_handler import image_uploader, show_all_uploads
+from .features.twitter_interaction import post_tweet
+from .features.imgur_handler import image_uploader, show_all_uploads
 #from features.business_news_reader import news_reader
-from features.play_music import play_random, play_specific_music, play_shuffle
-from features.notes import note_something, show_all_notes
+from .features.play_music import play_random, play_specific_music, play_shuffle
+from .features.notes import note_something, show_all_notes
 #from features.open_firefox import open_firefox
 #
 

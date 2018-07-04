@@ -1,5 +1,5 @@
 import requests
-from features.respond.tts import tts
+from app.views.features.respond.tts import tts
 
 
 def get_news():

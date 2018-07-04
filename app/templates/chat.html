@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="wrapper">
+    <div id="chatbox">
+    </div>
+    <form style="margin: 0 auto;text-align: center;" id="text_form">
+        <input type="text" name="usermsg" id="usermsg" required>
+        <input name="submitmsg" type="submit"  id="submitmsg" value="Send" required>
+    </form>
+</div>
+{% endblock %}
+
+{% block js_files %}
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+{% endblock %}

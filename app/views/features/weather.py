@@ -3,7 +3,7 @@
 import requests
 import pyowm
 # from darksky import forecast
-from features.respond.tts import tts
+from app.views.features.respond.tts import tts
 
 google_api_key = 'AIzaSyBoH7qwxOf6z-QQQL84iKXMGS__ZOHsVog'
 OpenWeatherMap_API_key = '05f12b7800aae01aef77b1cecb5f6571'

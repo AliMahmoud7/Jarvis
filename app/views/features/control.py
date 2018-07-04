@@ -1,5 +1,5 @@
 import time
-from features.respond.tts import tts
+from app.views.features.respond.tts import tts
 
 try:
     import RPi.GPIO as GPIO

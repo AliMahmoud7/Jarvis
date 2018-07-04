@@ -1,5 +1,5 @@
 import tweepy
-from features.respond.tts import tts
+from app.views.features.respond.tts import tts
 
 access_token = '931160532203294720-o5HjeKUHz3XtNmwH2ELOzrkTfUtrLCW'
 access_token_secret = 'e6IBO20HGmpGblUOpHzHENLmFIdRKdN4LwcJP4eu7VneC'

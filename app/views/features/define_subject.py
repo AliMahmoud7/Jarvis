@@ -1,6 +1,6 @@
 import re
 import wikipedia
-from features.respond.tts import tts
+from app.views.features.respond.tts import tts
 
 
 def define_subject(speech_text):

@@ -2,12 +2,12 @@
 
 import speech_recognition as sr
 import yaml
-from features.respond.tts import tts
-from brain import brain
+from .features.respond.tts import tts
+from .brain import brain
 import time
 import os
 import sys
-from features.control import control_light
+from .features.control import control_light
 
 if sys.platform == 'linux' or sys.platform == 'linux2':
     # Suppress ALSA lib error messages
@@ -27,20 +27,20 @@ if sys.platform == 'linux' or sys.platform == 'linux2':
     asound.snd_lib_error_set_handler(c_error_handler)
 
 
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+BASE_DIR2 = os.path.abspath(os.path.dirname(__file__))
 RECOGNIZE_ERRORS = 0
 device_index = 0
 
 # Load profile data
-with open('profile.yaml') as f:
+with open(os.path.join(BASE_DIR2, 'profile.yaml')) as f:
     profile = yaml.safe_load(f)
 bot_name = profile['bot_name']
 username = profile['username']
 location = '{}, {}'.format(profile['city'], profile['country'])
-music_path = os.path.join(BASE_DIR, profile['music_dir'])
-images_path = os.path.join(BASE_DIR, profile['images_dir'])
+music_path = os.path.join(BASE_DIR2, profile['music_dir'])
+images_path = os.path.join(BASE_DIR2, profile['images_dir'])
 
-del BASE_DIR
+del BASE_DIR2
 del profile
 
 

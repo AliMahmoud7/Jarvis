@@ -2,7 +2,7 @@ import os
 import sqlite3
 from datetime import datetime
 from imgurpython import ImgurClient
-from features.respond.tts import tts
+from app.views.features.respond.tts import tts
 
 client_id = '0f5862c336116fe'
 client_secret = '0e2227bfc970ddbe3ca335c5caa349428eafbd0'
