@@ -1,20 +1,22 @@
 import sqlite3
 from datetime import datetime
 
-from app.views.features.respond.tts import tts
+# from app.views.features.respond.tts import tts
 
 
 def show_all_notes():
     conn = sqlite3.connect('memory.db')
-    tts('Your notes are as follows:')
+    saved_notes = '''Your notes are as follows:
+    '''
 
     cursor = conn.execute("SELECT notes FROM notes")
 
     for row in cursor:
-        tts(row[0])
+        saved_notes += '{} \n'.format(row[0])
+        # tts(row[0])
 
     conn.close()
-    return None
+    return saved_notes
 
 
 def note_something(speech_text):
@@ -28,4 +30,4 @@ def note_something(speech_text):
     conn.commit()
     conn.close()
 
-    return tts('Your note has been saved.')
+    return 'Your note has been saved.'

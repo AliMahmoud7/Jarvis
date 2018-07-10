@@ -2,8 +2,7 @@ import os
 import sys
 import random
 
-from app.views.features.respond.tts import tts
-from playsound import playsound
+# from app.views.features.respond.tts import tts
 from pygame import mixer
 
 
@@ -34,9 +33,6 @@ def music_player(file_name):
         # mixer.init()
         # mixer.music.load(file_name)
         # mixer.music.play()
-        # while mixer.music.get_busy():
-        #     continue
-        # playsound(file_name)
 
 
 def play_random(music_path):
@@ -44,11 +40,12 @@ def play_random(music_path):
         music_listing = mp3gen(music_path)
         music_playing = random.choice(music_listing)
         print('music_playing: ', music_playing)
-        tts("Now playing your music!")
-        return music_player(music_playing)
+        music_player(music_playing)
+        return "Now playing your music!"
+
     except IndexError as e:
         print("No music files found: {0}".format(e))
-        return tts('No music files found.')
+        return 'No music files found.'
 
 
 def play_specific_music(speech_text, music_path):
@@ -70,4 +67,4 @@ def play_shuffle(music_path):
             return music_player(music_listing[i])
     except IndexError as e:
         print("No music files found: {0}".format(e))
-        return tts('No music files found.')
+        return 'No music files found.'

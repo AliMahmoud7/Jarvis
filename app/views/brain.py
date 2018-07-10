@@ -1,4 +1,4 @@
-from .features.respond.tts import tts
+# from .features.respond.tts import tts
 from random import choice
 from datetime import datetime
 from .features.control import control_light
@@ -15,7 +15,7 @@ from .features.imgur_handler import image_uploader, show_all_uploads
 #from features.business_news_reader import news_reader
 from .features.play_music import play_random, play_specific_music, play_shuffle
 from .features.notes import note_something, show_all_notes
-#from features.open_firefox import open_firefox
+from .features.open_firefox import open_firefox
 #
 
 
@@ -30,7 +30,7 @@ def brain(speech_text, bot_name, username, location, music_path, images_path):
     """
 
     def undefined():
-        return tts("Oh! Sorry, I Couldn't understand you")
+        return "Oh! Sorry, I Couldn't understand you"
 
     def check_message(check):
         words_of_message = speech_text.split()
@@ -48,7 +48,7 @@ def brain(speech_text, bot_name, username, location, music_path, images_path):
             resp = client.message(speech_text)
         except ConnectionError as e:
             print('ConnectionError:', e)
-            return tts('Please, Check your internet connection!')
+            return 'Please, Check your internet connection!'
         pprint(resp)
 
         entities = resp.get('entities')
@@ -68,6 +68,8 @@ def brain(speech_text, bot_name, username, location, music_path, images_path):
 
             if intent_value == 'unknown':
                 return undefined()
+            elif intent_value == 'curse':
+                return "I'm sorry sir, Please don't kick me!"
             elif intent_value == 'lights':
                 light_color = 'all'
                 if color:
@@ -99,18 +101,18 @@ def brain(speech_text, bot_name, username, location, music_path, images_path):
                     query = wikipedia_search_query[0].get('value')
                 return define_subject(query)
             elif intent_value == 'doors':
-                return tts("Oh Sorry! I'm not connected with any doors")
+                return "Oh Sorry! I'm not connected with any doors"
                 # code to control door
-            elif intent_value == 'news ':
+            elif intent_value == 'news':
                 # code to view latest news
                 return get_news()
             elif intent_value == 'welcome':
-                return tts(choice([
+                return choice([
                     'I am fine, Thank you.',
                     'Pretty good',
                     "Can't be better",
                     'Not bad'
-                ]))
+                ])
             elif intent_value == 'alarm':
                 # code to set alarm
                 replay = "I can't set the alarm, please try again"
@@ -122,48 +124,48 @@ def brain(speech_text, bot_name, username, location, music_path, images_path):
                         replay = 'Setting alarm at {}'.format(time[:5])
                     except:
                         pass
-                return tts(replay)
+                return replay
             elif intent_value == 'temp':
-                return tts("Oh Sorry! I can't do that without a temperature sensor!")
+                return "Oh Sorry! I can't do that without a temperature sensor!"
             elif intent_value == 'sleep':
                 return 0
             elif intent_value == 'age':
-                return tts('Oh! I am just a baby who learning how to speak!')
+                return 'Oh! I am just a baby who learning how to speak!'
 
         elif greetings:
-            return tts(choice([
+            return choice([
                 "Hi, How's it going?",
                 "Hey, What's up?",
                 'Hello, How are you?'
-            ]))
+            ])
         elif bye:
             # code to go sleep
-            # tts('Bye!, I will go sleep now, Ping me if you need anything')
+            # 'Bye!, I will go sleep now, Ping me if you need anything'
             return 0
         elif thanks:
-            return tts(choice([
+            return choice([
                 'You are welcome',
                 'Anytime',
                 'Glad to help'
-            ]))
+            ])
         else:
             return undefined()
 
     if check_message(['who', 'are', 'you']):
-        return tts(choice([
+        return choice([
             'I am {}, your smarter personal assistant.'.format(bot_name),
             'Oh, You forget me, I am {}'.format(bot_name),
             'I am your friend {}'.format(bot_name),
             "{}, didn't I tell you before?".format(bot_name)
-        ]))
+        ])
     elif check_message(['how', 'i', 'look']) or check_message(['how', 'am', 'i']):
-        return tts(choice([
+        return choice([
             'You are goddamn handsome!',
             'My knees go weak when I see you.',
             'You look like the kindest person that I have met.'
-        ]))
+        ])
     elif check_message(['tell', 'joke']):
-        return tts(choice([
+        return choice([
             'Why are mountains so funny? Because they are hill areas.',
             "This might make you laugh. How do robots eat guacamole? With computer chips.",
             'Have you ever tried to eat a clock?'
@@ -173,16 +175,16 @@ def brain(speech_text, bot_name, username, location, music_path, images_path):
             'Did you hear about that new broom? It is sweeping the nation!',
             'What is heavy forward but not backward? Ton.',
             'No, I always forget the punch line.'
-        ]))
+        ])
     elif check_message(['who', 'am', 'i']):
-        return tts('You are {}, a brilliant person. I love you!'.format(username))
+        return 'You are {}, a brilliant person. I love you!'.format(username)
     elif check_message(['where', 'born']):
-        return tts('I was created by a wonderful CSE team as a graduation project in the faculty of Engineering, '
-            'Minya University - Egypt.')
+        return 'I was created by a wonderful CSE team as a graduation project in the faculty of Engineering, ' \
+               'Minya University - Egypt. '
     # elif check_message(['how', 'are', 'you']):
     #     how_are_you()
     elif check_message(['time']):
-        return tts("The time is " + datetime.strftime(datetime.now(), '%I:%M %p'))
+        return "The time is " + datetime.strftime(datetime.now(), '%I:%M %p')
     elif check_message(['weather']):
         try:
             w_location = speech_text.split(' in ')[1].strip()
@@ -192,7 +194,7 @@ def brain(speech_text, bot_name, username, location, music_path, images_path):
     elif check_message(['define']):
         return define_subject(speech_text)
     elif check_message(['sleep']) or check_message(['bye']):
-        # tts('Bye!, I will go sleep now, Ping me if you need anything')
+        # 'Bye!, I will go sleep now, Ping me if you need anything'
         return 0
     elif check_message(['news']):
         return get_news()
@@ -202,7 +204,7 @@ def brain(speech_text, bot_name, username, location, music_path, images_path):
             if word == 'remind' or word == 'me' or word == 'to':
                 words.remove(word)
         clean_msg = ' '.join(words)
-        return tts('"{}", Successfully added to your TO-DO list'.format(clean_msg))
+        return '"{}", Successfully added to your TO-DO list'.format(clean_msg)
 
     # kareem
     elif check_message(['tweet']):
@@ -226,12 +228,11 @@ def brain(speech_text, bot_name, username, location, music_path, images_path):
         return note_something(speech_text)
     elif check_message(['all', 'notes']) or check_message(['notes']):
         return show_all_notes()
-    #elif check_message(['open', 'firefox']):
-    #    return open_firefox()
+    elif check_message(['open', 'firefox']):
+       return open_firefox()
     #
 
     else:
-        state = wit()
-        if state == 0:
-            return 0
-        return True
+        # state = wit()
+        # return state
+        return wit()

@@ -2,7 +2,7 @@ import os
 import sqlite3
 from datetime import datetime
 from imgurpython import ImgurClient
-from app.views.features.respond.tts import tts
+# from app.views.features.respond.tts import tts
 
 client_id = '0f5862c336116fe'
 client_secret = '0e2227bfc970ddbe3ca335c5caa349428eafbd0'
@@ -34,7 +34,7 @@ def image_uploader(speech_text, images_path):
             conn.commit()
             conn.close()
             print(result['link'])
-            return tts('Your image has been uploaded')
+            return 'Your image has been uploaded'
 
 
 def show_all_uploads():
@@ -42,6 +42,6 @@ def show_all_uploads():
     cursor = conn.execute("SELECT * FROM image_uploads")
     for row in cursor:
         print(row[0] + ': (' + row[1] + ') on ' + row[2])
-    tts('Requested data has been printed on your terminal')
+    'Requested data has been printed on your terminal'
     conn.close()
     return

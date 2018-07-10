@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-from features.respond.tts import tts
+# from features.respond.tts import tts
 
 # NDTV News
 fixed_url = 'http://profit.ndtv.com/news/latest/'
@@ -33,7 +33,10 @@ news_dictionary = dict(zip(news_headlines_list_small, news_details_list_small))
 
 
 def news_reader():
+    latest_news = ''''''
     for key, value in news_dictionary.items():
-        tts('Headline, ' + key)
-        tts('News, ' + value)
-    return None
+        # tts('Headline, ' + key)
+        # tts('News, ' + value)
+        latest_news += 'Headline, {} \n'.format(key)
+        latest_news += 'News, {} \n'.format(value)
+    return latest_news

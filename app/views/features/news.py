@@ -1,5 +1,5 @@
 import requests
-from app.views.features.respond.tts import tts
+# from app.views.features.respond.tts import tts
 
 
 def get_news():
@@ -14,8 +14,11 @@ def get_news():
     response = requests.get(url, params).json()
     if response['status'] == 'ok':
         articles = response['articles']
-        tts('Top 3 headlines in the US are')
+        top_news = '''Top 3 headlines in the US are:
+        '''
         for article in articles:
-            print(article['title'])
-            tts(article['title'])
+            # print(article['title'])
+            # tts(article['title'])
+            top_news += '{} \n'.format(article['title'])
+        return top_news
     return None

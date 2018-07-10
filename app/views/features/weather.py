@@ -3,7 +3,7 @@
 import requests
 import pyowm
 # from darksky import forecast
-from app.views.features.respond.tts import tts
+# from app.views.features.respond.tts import tts
 
 google_api_key = 'AIzaSyBoH7qwxOf6z-QQQL84iKXMGS__ZOHsVog'
 OpenWeatherMap_API_key = '05f12b7800aae01aef77b1cecb5f6571'
@@ -32,7 +32,7 @@ def weather(location):
     status = w.get_detailed_status()
     temp = round(w.get_temperature('celsius')['temp'])
 
-    return tts("Now, It is {} and {} degree celsius in {}".format(status, temp, location))
+    return "Now, It is {} and {} degree celsius in {}".format(status, temp, location)
 
     #############################################
     # with forecast(Dark_Sky_API_KEY, lat, lng) as boston:

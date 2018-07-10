@@ -1,47 +1,9 @@
 #!/usr/bin/env python3
 
 import speech_recognition as sr
-import yaml
 from .features.respond.tts import tts
 from .brain import brain
-import time
-import os
-import sys
-from .features.control import control_light
-
-if sys.platform == 'linux' or sys.platform == 'linux2':
-    # Suppress ALSA lib error messages
-    from ctypes import *
-
-    # Define our error handler type
-    ERROR_HANDLER_FUNC = CFUNCTYPE(None, c_char_p, c_int, c_char_p, c_int, c_char_p)
-
-
-    def py_error_handler(filename, line, function, err, fmt):
-        pass
-
-
-    c_error_handler = ERROR_HANDLER_FUNC(py_error_handler)
-    asound = cdll.LoadLibrary('libasound.so')
-    # Set error handler
-    asound.snd_lib_error_set_handler(c_error_handler)
-
-
-BASE_DIR2 = os.path.abspath(os.path.dirname(__file__))
-RECOGNIZE_ERRORS = 0
-device_index = 0
-
-# Load profile data
-with open(os.path.join(BASE_DIR2, 'profile.yaml')) as f:
-    profile = yaml.safe_load(f)
-bot_name = profile['bot_name']
-username = profile['username']
-location = '{}, {}'.format(profile['city'], profile['country'])
-music_path = os.path.join(BASE_DIR2, profile['music_dir'])
-images_path = os.path.join(BASE_DIR2, profile['images_dir'])
-
-del BASE_DIR2
-del profile
+from string import punctuation
 
 
 BING_KEY = "92cf7a2c73424f31b6424e4148e37e4f"
@@ -49,46 +11,17 @@ IBM_USERNAME = "6ce9b92d-21c7-40f2-a7f5-3e89e247b0b7"
 IBM_PASSWORD = "PMDair8fVjmu"
 WIT_AI_KEY = "NCC2OIS54Y2ROFYCJ2XZDZREMXTNTIR5"
 
-
-def microphone_index():
-    """Check Microphone index"""
-    global device_index
-    print('-------------------------------------------------------------------------------')
-    for index, name in enumerate(sr.Microphone.list_microphone_names()):
-        print("Microphone with name \"{1}\" found for `Microphone(device_index={0})`".format(index, name))
-        if "USB PnP Sound".lower() in name.lower():
-            device_index = index
-            break
-    print('device_index: ', device_index)
-    print('-------------------------------------------------------------------------------')
+# obtain the audio
+r = sr.Recognizer()
 
 
-microphone_index()
-
-
-def recognize():
+def recognize(audio, bot_name):
     """
     Handling the Speech to text recognition (STT)
     :return: speech text (a string)
     """
 
-    # obtain audio from the microphone
-    r = sr.Recognizer()
-    with sr.Microphone(device_index=device_index) as source:
-        control_light('off', 'red')
-        control_light('on', 'green')
-        # listen for 1 second to calibrate the energy threshold for ambient noise levels
-        r.adjust_for_ambient_noise(source)
-        print("Say something!")
-        audio = r.listen(source, phrase_time_limit=5)
-
-    # write audio to a WAV file
-    # with open("microphone-results.wav", "wb") as f:
-    #     f.write(audio.get_wav_data())
-
     speech_text = None
-    control_light('on', 'red')
-    control_light('off', 'green')
 
     # recognize speech using Google Speech Recognition
     try:
@@ -154,73 +87,44 @@ def recognize():
     return speech_text
 
 
-def standby():
-    """Make the raspberry pi in the standby (sleep) state"""
-    print('I am in standby state!')
-    speech_text = recognize()
+def serve_voice(voice_file, bot_name, username, location, music_path, images_path):
+    """Serve user voice"""
+
+    with sr.WavFile(voice_file) as source:
+        r.adjust_for_ambient_noise(source, duration=0.5)
+        audio = r.record(source)
+
+    speech_text = recognize(audio, bot_name)
+
     if speech_text:
-        replies = ['{}'.format(bot_name).lower(), 'hi', 'hey', 'wake up', 'start', 'begin', 'help', 'need you']
-
-        # CHECK THIS?
-        for word in replies:
-            if word in speech_text.split():
-                return True
-                # break
+        # cleaned_text = clean_text(speech_text)
+        reply = brain(speech_text, bot_name, username, location, music_path, images_path)
+        if reply:
+            return tts(reply)
+        # tts('I am listening. You can ask me again.')
+        elif reply == 0:
+            return tts('I will go sleep now, Ping me if you need anything!')
         else:
-            return False
-
-        """
-        if '{}'.format(bot_name).lower() in speech_text.split() or 'hi' in speech_text.split():
-            return True
-        else:
-            # tts("Just call my name")
-            return False
-        """
+            return tts('An unexpected error has occurred!')
     else:
-        time.sleep(5)
-        return False
+        return tts("I couldn't understand your audio, Try to say something!")
 
 
-def active():
-    """Active state"""
-    global RECOGNIZE_ERRORS
-    print('I am in active state')
+def serve_text(text_msg, bot_name, username, location, music_path, images_path):
+    """Serve user text chat"""
+    cleaned_msg = clean_text(text_msg)
+    reply = brain(cleaned_msg, bot_name, username, location, music_path, images_path)
 
-    speech_text = recognize()
-    if speech_text:
-        standby_state = brain(speech_text, bot_name, username, location, music_path, images_path)
-        if standby_state == 0:
-            return True
-        else:
-            time.sleep(1)
-            tts('I am listening. You can ask me again.')
-            return False
+    if reply:
+        return reply
+    elif reply == 0:
+        return 'I will go sleep now, Ping me if you need anything!'
     else:
-        # tts("I couldn't understand your audio, Try to say something!")
-        RECOGNIZE_ERRORS += 1
-        return False
+        return 'An unexpected error has occurred!'
 
 
-if __name__ == '__main__':
-    # Welcome message
-    tts('Hi {}, I am {}. How can I help you?'.format(username, bot_name))
+def clean_text(text):
+    filtered_text = list(filter(lambda character: character not in punctuation, list(text)))
 
-    sleep_mode = active()
-    while True:
-        if sleep_mode:
-            tts('Bye!, I will go sleep now, Ping me if you need anything')
-            control_light('on', 'yellow')
+    return ''.join(filtered_text)
 
-            active_mode = standby()
-            while True:
-                if active_mode:
-                    tts('Hi {}, How can I help you?'.format(username))
-                    control_light('off', 'yellow')
-                    sleep_mode = active()
-                    break
-                else:
-                    active_mode = standby()
-        else:
-            sleep_mode = active()
-
-    # tts('Bye My friend {}'.format(username))

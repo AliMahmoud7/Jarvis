@@ -68,7 +68,7 @@ function toggleRecording( e ) {
     audioRecorder.clear();
     audioRecorder.record();
 
-    setTimeout(stopRecording, 4000, e);
+    setTimeout(stopRecording, 3000, e);
 }
 
 function convertToMono( input ) {

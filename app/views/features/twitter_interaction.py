@@ -1,5 +1,5 @@
 import tweepy
-from app.views.features.respond.tts import tts
+# from app.views.features.respond.tts import tts
 
 access_token = '931160532203294720-o5HjeKUHz3XtNmwH2ELOzrkTfUtrLCW'
 access_token_secret = 'e6IBO20HGmpGblUOpHzHENLmFIdRKdN4LwcJP4eu7VneC'
@@ -17,6 +17,6 @@ def post_tweet(speech_text):
     print('cleaned msg: ', cleaned_message)
     api.update_status(status=cleaned_message)
 
-    return tts('Your tweet has been posted on your twitter account')
+    return 'Your tweet has been posted on your twitter account'
 
 # post_tweet(speech_text, consumer_key, consumer_secret, access_token, access_token_secret)

@@ -9,8 +9,17 @@ from playsound import playsound
 from pygame import mixer
 from random import randrange
 
+# Joanna, Female
+# Kimberly, Female
+# Salli, Female
+# Kendra, Female
+# Ivy, Female
+# Matthew, Male
+# Justin, Male
+# Joey, Male
 
-def tts(message):
+
+def tts(message, voiceId="Matthew"):
     # Create a client using the credentials and region defined in the [adminuser]
     # section of the AWS credentials file (~/.aws/credentials).
     session = Session(
@@ -23,7 +32,7 @@ def tts(message):
     try:
         # Request speech synthesis
         response = polly.synthesize_speech(Text=message, OutputFormat="mp3",
-                                           VoiceId="Matthew")
+                                           VoiceId=voiceId)
     except (BotoCoreError, ClientError) as error:
         # The service returned an error, exit gracefully
         print(error)
