@@ -87,6 +87,7 @@ input { font:12px arial; }
     border: 1px solid #ACD8F0;
     overflow: auto;
     margin-top: 22px;
+    min-height: 300px;
 }
 
 #usermsg {
@@ -108,6 +109,14 @@ input { font:12px arial; }
 
     #chatbox {
         max-width: 345px;
+    }
+
+    #usermsg {
+        height: 30px;
+    }
+
+    input[type="submit"] {
+        height: 30px;
     }
 }
 
