@@ -56,8 +56,10 @@ def control_light(action, light_color=None):
             return '{} light {}.'.format(light_color, action)
         elif light_color == 'green':
             GPIO.output(GREEN_PIN, True)
+            return '{} light {}.'.format(light_color, action)
         elif light_color == 'yellow':
             GPIO.output(YELLOW_PIN, True)
+            return '{} light {}.'.format(light_color, action)
         elif light_color == 'blue':
             GPIO.output(BLUE_PIN, True)
             return '{} light {}.'.format(light_color, action)
@@ -66,14 +68,17 @@ def control_light(action, light_color=None):
             GPIO.output(GREEN_PIN, True)
             GPIO.output(YELLOW_PIN, True)
             GPIO.output(BLUE_PIN, True)
+            return 'Light {}.'.format(action)
     elif action == 'off':
         if light_color == 'red':
             GPIO.output(RED_PIN, False)
             return '{} light {}.'.format(light_color, action)
         elif light_color == 'green':
             GPIO.output(GREEN_PIN, False)
+            return '{} light {}.'.format(light_color, action)
         elif light_color == 'yellow':
             GPIO.output(YELLOW_PIN, False)
+            return '{} light {}.'.format(light_color, action)
         elif light_color == 'blue':
             GPIO.output(BLUE_PIN, False)
             return '{} light {}.'.format(light_color, action)
@@ -82,5 +87,6 @@ def control_light(action, light_color=None):
             GPIO.output(GREEN_PIN, False)
             GPIO.output(YELLOW_PIN, False)
             GPIO.output(BLUE_PIN, False)
+            return 'Light {}.'.format(action)
     else:
         return 'You should tell me explicitly to turn on or off the lights'

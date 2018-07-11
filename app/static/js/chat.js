@@ -30,10 +30,15 @@ $('#text_form').submit(function (e) {
         // chatWaiting.remove();
         newServerMsg.empty();
         newServerMsg.text(res);
+
+        $('#focused_elem').focus();
         console.log(res);
+
+        userInput.focus();
 
     }).fail(function (err) {
         newServerMsg.remove();
+        // newServerMsg.empty().text('An unexpected error has occurred on the server!');
         console.log(err);
     });
 

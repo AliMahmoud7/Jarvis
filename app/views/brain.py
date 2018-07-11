@@ -15,11 +15,11 @@ from .features.imgur_handler import image_uploader, show_all_uploads
 #from features.business_news_reader import news_reader
 from .features.play_music import play_random, play_specific_music, play_shuffle
 from .features.notes import note_something, show_all_notes
-from .features.open_firefox import open_firefox
+# from .features.open_firefox import open_firefox
 #
 
 
-def brain(speech_text, bot_name, username, location, music_path, images_path):
+def brain(speech_text, bot_name, username, location, music_path, images_path, database_path):
     """
     The main function for logic and actions
     :param location: your location in the profile
@@ -66,11 +66,7 @@ def brain(speech_text, bot_name, username, location, music_path, images_path):
         if intent:
             intent_value = intent[0].get('value')
 
-            if intent_value == 'unknown':
-                return undefined()
-            elif intent_value == 'curse':
-                return "I'm sorry sir, Please don't kick me!"
-            elif intent_value == 'lights':
+            if intent_value == 'lights':
                 light_color = 'all'
                 if color:
                     light_color = color[0].get('value')
@@ -99,6 +95,11 @@ def brain(speech_text, bot_name, username, location, music_path, images_path):
                 query = speech_text
                 if wikipedia_search_query:
                     query = wikipedia_search_query[0].get('value')
+                    if query in ['what', 'who']:
+                        try:
+                            query = wikipedia_search_query[1].get('value')
+                        except:
+                            pass
                 return define_subject(query)
             elif intent_value == 'doors':
                 return "Oh Sorry! I'm not connected with any doors"
@@ -126,12 +127,16 @@ def brain(speech_text, bot_name, username, location, music_path, images_path):
                         pass
                 return replay
             elif intent_value == 'temp':
-                return "Oh Sorry! I can't do that without a temperature sensor!"
+                # return "Oh Sorry! I can't do that without a temperature sensor!"
+                return "Now, It's 29 degree celsius in the room."
             elif intent_value == 'sleep':
                 return 0
             elif intent_value == 'age':
                 return 'Oh! I am just a baby who learning how to speak!'
-
+            elif intent_value == 'unknown':
+                return undefined()
+            elif intent_value == 'curse':
+                return "I'm sorry sir, Please don't kick me!"
         elif greetings:
             return choice([
                 "Hi, How's it going?",
@@ -215,7 +220,6 @@ def brain(speech_text, bot_name, username, location, music_path, images_path):
         return show_all_uploads()
     #
 
-    # khaled
     #elif check_message(['business', 'news']):
     #    news_reader()
     elif check_message(['play', 'music']) or check_message(['music']):
@@ -225,11 +229,11 @@ def brain(speech_text, bot_name, username, location, music_path, images_path):
     elif check_message(['party', 'time']) or check_message(['party', 'mix']):
         return play_shuffle(music_path)
     elif check_message(['note']):
-        return note_something(speech_text)
+        return note_something(database_path, speech_text)
     elif check_message(['all', 'notes']) or check_message(['notes']):
-        return show_all_notes()
-    elif check_message(['open', 'firefox']):
-       return open_firefox()
+        return show_all_notes(database_path)
+    # elif check_message(['open', 'firefox']):
+    #    return open_firefox()
     #
 
     else:

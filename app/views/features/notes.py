@@ -4,8 +4,8 @@ from datetime import datetime
 # from app.views.features.respond.tts import tts
 
 
-def show_all_notes():
-    conn = sqlite3.connect('memory.db')
+def show_all_notes(database_path):
+    conn = sqlite3.connect(database_path)
     saved_notes = '''Your notes are as follows:
     '''
 
@@ -19,8 +19,8 @@ def show_all_notes():
     return saved_notes
 
 
-def note_something(speech_text):
-    conn = sqlite3.connect('memory.db')
+def note_something(database_path, speech_text):
+    conn = sqlite3.connect(database_path)
     words_of_message = speech_text.split()
     words_of_message.remove('note')
     cleaned_message = ' '.join(words_of_message)

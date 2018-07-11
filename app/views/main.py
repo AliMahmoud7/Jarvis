@@ -87,8 +87,8 @@ def recognize(audio, bot_name):
     return speech_text
 
 
-def serve_voice(voice_file, bot_name, username, location, music_path, images_path):
-    """Serve user voice"""
+def serve_voice(voice_file, bot_name, username, location, music_path, images_path, database_path):
+    """Serve user voice speech"""
 
     with sr.WavFile(voice_file) as source:
         r.adjust_for_ambient_noise(source, duration=0.5)
@@ -98,7 +98,7 @@ def serve_voice(voice_file, bot_name, username, location, music_path, images_pat
 
     if speech_text:
         # cleaned_text = clean_text(speech_text)
-        reply = brain(speech_text, bot_name, username, location, music_path, images_path)
+        reply = brain(speech_text, bot_name, username, location, music_path, images_path, database_path)
         if reply:
             return reply
         # tts('I am listening. You can ask me again.')
@@ -110,10 +110,10 @@ def serve_voice(voice_file, bot_name, username, location, music_path, images_pat
         return "I couldn't understand your audio, Try to say something!"
 
 
-def serve_text(text_msg, bot_name, username, location, music_path, images_path):
+def serve_text(text_msg, bot_name, username, location, music_path, images_path, database_path):
     """Serve user text chat"""
     cleaned_msg = clean_text(text_msg)
-    reply = brain(cleaned_msg, bot_name, username, location, music_path, images_path)
+    reply = brain(cleaned_msg, bot_name, username, location, music_path, images_path, database_path)
 
     if reply:
         return reply
@@ -126,5 +126,5 @@ def serve_text(text_msg, bot_name, username, location, music_path, images_path):
 def clean_text(text):
     filtered_text = list(filter(lambda character: character not in punctuation, list(text)))
 
-    return ''.join(filtered_text)
+    return ''.join(filtered_text).lower()
 

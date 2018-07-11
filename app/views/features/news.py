@@ -14,11 +14,10 @@ def get_news():
     response = requests.get(url, params).json()
     if response['status'] == 'ok':
         articles = response['articles']
-        top_news = '''Top 3 headlines in the US are:
-        '''
+        top_news = 'Top 3 headlines in the US are:\n'
         for article in articles:
             # print(article['title'])
             # tts(article['title'])
-            top_news += '{} \n'.format(article['title'])
+            top_news += '# {}. \n'.format(article['title'])
         return top_news
     return None

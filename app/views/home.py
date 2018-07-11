@@ -14,6 +14,7 @@ username = 'Sir'
 location = 'Minya, Egypt'
 music_path = os.path.join(BASE_DIR, 'data/music')
 images_path = os.path.join(BASE_DIR, 'data/images')
+database_path = os.path.join(BASE_DIR, 'data/memory.db')
 recorded_audio_path = os.path.join(BASE_DIR, "audio.wav")
 
 
@@ -30,7 +31,7 @@ def voice():
         with open(recorded_audio_path, "wb") as file:
             file.write(audio)
 
-        server_msg = serve_voice(recorded_audio_path, bot_name, username, location, music_path, images_path)
+        server_msg = serve_voice(recorded_audio_path, bot_name, username, location, music_path, images_path, database_path)
         if lcd:
             lcd.message('{}\n{}'.format(server_msg[:15], server_msg[15:]))
         tts(server_msg)
@@ -44,7 +45,7 @@ def text():
     if request.method == 'POST':
         user_msg = request.data.decode()
 
-        server_msg = serve_text(user_msg, bot_name, username, location, music_path, images_path)
+        server_msg = serve_text(user_msg, bot_name, username, location, music_path, images_path, database_path)
         return server_msg
 
     return render_template('chat.html')
