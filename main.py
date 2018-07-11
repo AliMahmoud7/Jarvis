@@ -161,21 +161,12 @@ def standby():
     if speech_text:
         replies = ['{}'.format(bot_name).lower(), 'hi', 'hey', 'wake up', 'start', 'begin', 'help', 'need you']
 
-        # CHECK THIS?
         for word in replies:
             if word in speech_text.split():
                 return True
                 # break
         else:
             return False
-
-        """
-        if '{}'.format(bot_name).lower() in speech_text.split() or 'hi' in speech_text.split():
-            return True
-        else:
-            # tts("Just call my name")
-            return False
-        """
     else:
         time.sleep(5)
         return False
