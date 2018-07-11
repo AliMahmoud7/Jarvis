@@ -67,7 +67,7 @@ function exportWAV(type){
   console.log('audioBlob', audioBlob);
 
   var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/', true);
+  xhr.open('POST', '/voice', true);
   xhr.onload = function(e) {
     console.log(xhr.response);
   };

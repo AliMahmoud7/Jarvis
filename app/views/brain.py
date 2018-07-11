@@ -151,7 +151,7 @@ def brain(speech_text, bot_name, username, location, music_path, images_path):
         else:
             return undefined()
 
-    if check_message(['who', 'are', 'you']):
+    if check_message(['who', 'are', 'you']) or check_message(['your', 'name']):
         return choice([
             'I am {}, your smarter personal assistant.'.format(bot_name),
             'Oh, You forget me, I am {}'.format(bot_name),

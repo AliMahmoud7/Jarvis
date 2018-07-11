@@ -3,7 +3,7 @@ let userInput = $('#usermsg');
 let userMsg = $('<div></div>').addClass('chat-msg right-msg').attr('dir', 'auto');
 let serverMsg = $('<div></div>').addClass('chat-msg left-msg').attr('dir', 'auto');
 let chatWaiting = $('<div><span></span><span></span><span></span></div>').addClass('chat-waiting');
-const focusedElem = $('<a href="#" style="display: block; clear: both; padding-top: 20px; cursor: default;"></a>').attr('id', 'focused_elem');
+const focusedElem = $('<a href="#" style="display: block; clear: both; padding-top: 15px; cursor: default;"></a>').attr('id', 'focused_elem');
 
 $('#text_form').submit(function (e) {
     e.preventDefault();  // stop submit the form
@@ -30,7 +30,6 @@ $('#text_form').submit(function (e) {
         // chatWaiting.remove();
         newServerMsg.empty();
         newServerMsg.text(res);
-        // userInput.focus();
         console.log(res);
 
     }).fail(function (err) {

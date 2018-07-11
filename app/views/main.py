@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import speech_recognition as sr
-from .features.respond.tts import tts
+# from .features.respond.tts import tts
 from .brain import brain
 from string import punctuation
 
@@ -100,14 +100,14 @@ def serve_voice(voice_file, bot_name, username, location, music_path, images_pat
         # cleaned_text = clean_text(speech_text)
         reply = brain(speech_text, bot_name, username, location, music_path, images_path)
         if reply:
-            return tts(reply)
+            return reply
         # tts('I am listening. You can ask me again.')
         elif reply == 0:
-            return tts('I will go sleep now, Ping me if you need anything!')
+            return 'I will go sleep now, Ping me if you need anything!'
         else:
-            return tts('An unexpected error has occurred!')
+            return 'An unexpected error has occurred!'
     else:
-        return tts("I couldn't understand your audio, Try to say something!")
+        return "I couldn't understand your audio, Try to say something!"
 
 
 def serve_text(text_msg, bot_name, username, location, music_path, images_path):

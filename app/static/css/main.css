@@ -186,12 +186,13 @@ input { font:12px arial; }
     }
 }
 
-.focused-elem {
-    margin-top: 30px;
-    padding: 8px;
-    clear: both;
+.server-btn {
+    padding: 20px;
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    font-size: 17px;
 }
 
-.focused-elem a {
-    cursor: default;
-}
+

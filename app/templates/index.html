@@ -1,13 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-<form method="post" class="voice-form">
-    <div class="controls">
-        <i id="record" onclick="toggleRecording(this);" class="fa fa-microphone fa-4x mic"></i>
+<main class="container">
+    <div class="row">
+        <a href="{{ url_for('home.voice') }}" class="btn btn-default btn-block btn-primary server-btn">Speak with Jarvis</a>
+        <a href="{{ url_for('home.text') }}" class="btn btn-default btn-block btn-danger server-btn">Chat with Jarvis</a>
     </div>
-</form>
+</main>
 {% endblock %}
 
-{% block js_files %}
-<script src="{{ url_for('static', filename='js/recorder.js') }}"></script>
-<script src="{{ url_for('static', filename='js/main.js') }}"></script>
-{% endblock %}
