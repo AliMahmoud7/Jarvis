@@ -1,4 +1,8 @@
 $(function () {
+    // Change active class
+    $(".nav li").removeClass("active");
+    $('#text_chat').addClass('active');
+
     var chatBox = $('#chatbox');
     var userInput = $('#usermsg');
     var userMsg = $('<div></div>').addClass('chat-msg right-msg').attr('dir', 'auto');

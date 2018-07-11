@@ -7,4 +7,9 @@
     </div>
 </main>
 {% endblock %}
-
+{% block js_files %}
+<script>
+    // Remove all active class
+    $(".nav li").removeClass("active");
+</script>
+{% endblock %}
