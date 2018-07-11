@@ -33,9 +33,10 @@ def voice():
 
         server_msg = serve_voice(recorded_audio_path, bot_name, username, location, music_path, images_path, database_path)
         if lcd:
+            lcd.clear()
             lcd.message('{}\n{}'.format(server_msg[:15], server_msg[15:]))
         tts(server_msg)
-        return "Successfully handled your voice!"
+        return server_msg
 
     return render_template('voice.html')
 

@@ -128,7 +128,8 @@ def brain(speech_text, bot_name, username, location, music_path, images_path, da
                 return replay
             elif intent_value == 'temp':
                 # return "Oh Sorry! I can't do that without a temperature sensor!"
-                return "Now, It's 29 degree celsius in the room."
+                # For testing on other devices not an embedded system
+                return "Now, It's {} degree celsius in the room.".format(choice(['28', '29', '30', '31']))
             elif intent_value == 'sleep':
                 return 0
             elif intent_value == 'age':

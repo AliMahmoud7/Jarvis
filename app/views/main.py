@@ -124,7 +124,7 @@ def serve_text(text_msg, bot_name, username, location, music_path, images_path, 
 
 
 def clean_text(text):
-    filtered_text = list(filter(lambda character: character not in punctuation, list(text)))
+    filtered_text = list(filter(lambda character: character not in punctuation, list(text.strip())))
 
     return ''.join(filtered_text).lower()
 

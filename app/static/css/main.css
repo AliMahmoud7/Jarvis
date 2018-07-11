@@ -99,7 +99,7 @@ input { font:12px arial; }
     vertical-align: middle;
     width: 75%;
     line-height: 40px;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 @media all and  (max-width: 575px) {
