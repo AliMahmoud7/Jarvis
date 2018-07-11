@@ -4,6 +4,7 @@ import os
 from .features.respond.tts import tts
 from .features.control import lcd
 from .main import serve_voice, serve_text
+from threading import Thread
 
 home = Blueprint('home', __name__)
 
@@ -16,6 +17,12 @@ music_path = os.path.join(BASE_DIR, 'data/music')
 images_path = os.path.join(BASE_DIR, 'data/images')
 database_path = os.path.join(BASE_DIR, 'data/memory.db')
 recorded_audio_path = os.path.join(BASE_DIR, "audio.wav")
+
+
+# def process_waiting():
+#     tts('I am processing your request!')
+#     tts('Please Wait!')
+#     return None
 
 
 @home.route('/')
@@ -31,10 +38,15 @@ def voice():
         with open(recorded_audio_path, "wb") as file:
             file.write(audio)
 
+        # t1 = Thread(target=process_waiting)
+        # t1.start()
         server_msg = serve_voice(recorded_audio_path, bot_name, username, location, music_path, images_path, database_path)
+
         if lcd:
             lcd.clear()
-            lcd.message('{}\n{}'.format(server_msg[:15], server_msg[15:]))
+            lcd.message('Process Done!')
+
+        # t1.join()
         tts(server_msg)
         return server_msg
 
