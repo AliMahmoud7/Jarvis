@@ -9,9 +9,9 @@ try:
     lcd_rs = 25
     lcd_en = 24
     lcd_d4 = 23
-    lcd_d5 = 17
+    lcd_d5 = 2
     lcd_d6 = 18
-    lcd_d7 = 22
+    lcd_d7 = 10
     lcd_backlight = 2
     # Define LCD column and row size for 16x2 LCD.
     lcd_columns = 16

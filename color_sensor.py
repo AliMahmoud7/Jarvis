@@ -54,21 +54,34 @@ def loop():
         # time.sleep(3)
         print('temp= %s \n' % temp)
 
-        if red > 10000:
+        if green < 7000 and blue < 7000 and red > 12000:
             print("red")
             tts('STOP!')
             temp = 1
-        elif green > 9000:
+        elif red < 12000 and blue < 12000 and green > 12000:
             print("green")
             tts('MOVE!')
             temp = 1
-        elif blue > 13000:
+        elif green < 7000 and red < 7000 and blue > 12000:
             print("blue")
             temp = 1
-        elif red > 6000 and green > 6000 and blue > 6000 and temp == 1:
+        elif red > 10000 and green > 10000 and blue > 10000 and temp == 1:
             print("place the object.....")
             temp = 0
-        print('\n')
+
+        """
+        if green < red and blue < red:
+            print("red")
+            tts('STOP!')
+            temp = 1
+        elif red < green and blue < green:
+            print("green")
+            tts('MOVE!')
+            temp = 1
+        elif green < blue and red < blue:
+            print("blue")
+            temp = 1
+        """
 
 
 def endprogram():
