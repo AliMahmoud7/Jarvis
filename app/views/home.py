@@ -4,6 +4,7 @@ import os
 from .features.respond.tts import tts
 from .features.control import lcd
 from .main import serve_voice, serve_text
+import time
 from threading import Thread
 
 home = Blueprint('home', __name__)
@@ -23,6 +24,13 @@ recorded_audio_path = os.path.join(BASE_DIR, "audio.wav")
 #     tts('I am processing your request!')
 #     tts('Please Wait!')
 #     return None
+
+def show_sys_stable():
+    """Show system stable message on LCD"""
+    time.sleep(5)
+    lcd.clear()
+    lcd.message('System Stable :)')
+    return True
 
 
 @home.route('/')
@@ -45,6 +53,8 @@ def voice():
         if lcd:
             lcd.clear()
             lcd.message('Process Done!')
+            t1 = Thread(target=show_sys_stable)
+            t1.start()
 
         # t1.join()
         tts(server_msg)
