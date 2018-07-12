@@ -27,10 +27,10 @@ except:
 # Light colors with Pin numbers
 
 # Define global Pins
-RED_PIN = 11
-GREEN_PIN = 13
-YELLOW_PIN = 15
-BLUE_PIN = 19
+RED_PIN = 17
+GREEN_PIN = 27
+YELLOW_PIN = 22
+BLUE_PIN = 10
 
 # Setup GPIO Pins for outputs or inputs
 if PI:
