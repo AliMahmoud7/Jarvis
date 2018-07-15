@@ -28,10 +28,10 @@ except:
 # Light colors with Pin numbers
 
 # Define global Pins
-RED_PIN = 17
-GREEN_PIN = 27
-YELLOW_PIN = 22
-BLUE_PIN = 9
+RED_PIN = 11  # living room
+GREEN_PIN = 3  # bedroom
+YELLOW_PIN = 4  # kitchen
+BLUE_PIN = 9  # bathroom
 
 # Setup GPIO Pins for outputs or inputs
 if PI:
@@ -43,52 +43,75 @@ if PI:
     GPIO.setup(BLUE_PIN, GPIO.OUT)
 
 
-def control_light(action, light_color=None):
+def control_light(action, room_name=None, light_color=None):
     """
     Control lights using raspberry pi
+    :param room_name: string contains room name
     :param action: string on/off to turn on or off
-    :param light_color: string contain led color
+    :param light_color: string contains led color
     """
     if not PI:
         return "I can't find the raspberry pi to do the control actions"
 
     if action == 'on':
-        if light_color == 'red':
+        if room_name in ['living room', 'sitting room']:
             GPIO.output(RED_PIN, True)
-            return '{} light {}.'.format(light_color, action)
-        elif light_color == 'green':
+        elif room_name == 'bedroom':
             GPIO.output(GREEN_PIN, True)
-            return '{} light {}.'.format(light_color, action)
-        elif light_color == 'yellow':
+        elif room_name == 'kitchen':
             GPIO.output(YELLOW_PIN, True)
-            return '{} light {}.'.format(light_color, action)
-        elif light_color == 'blue':
+        elif room_name == 'bathroom':
             GPIO.output(BLUE_PIN, True)
-            return '{} light {}.'.format(light_color, action)
         else:
             GPIO.output(RED_PIN, True)
             GPIO.output(GREEN_PIN, True)
             GPIO.output(YELLOW_PIN, True)
             GPIO.output(BLUE_PIN, True)
-            return 'Light {}.'.format(action)
+        return '{} light {}.'.format(room_name.capitalize(), action)
+
+        # if light_color == 'red':
+        #     GPIO.output(RED_PIN, True)
+        # elif light_color == 'green':
+        #     GPIO.output(GREEN_PIN, True)
+        # elif light_color == 'yellow':
+        #     GPIO.output(YELLOW_PIN, True)
+        # elif light_color == 'blue':
+        #     GPIO.output(BLUE_PIN, True)
+        # else:
+        #     GPIO.output(RED_PIN, True)
+        #     GPIO.output(GREEN_PIN, True)
+        #     GPIO.output(YELLOW_PIN, True)
+        #     GPIO.output(BLUE_PIN, True)
+        # return '{} light {}.'.format(light_color.capitalize(), action)
     elif action == 'off':
-        if light_color == 'red':
+        if room_name in ['living room', 'sitting room']:
             GPIO.output(RED_PIN, False)
-            return '{} light {}.'.format(light_color, action)
-        elif light_color == 'green':
+        elif room_name == 'bedroom':
             GPIO.output(GREEN_PIN, False)
-            return '{} light {}.'.format(light_color, action)
-        elif light_color == 'yellow':
+        elif room_name == 'kitchen':
             GPIO.output(YELLOW_PIN, False)
-            return '{} light {}.'.format(light_color, action)
-        elif light_color == 'blue':
+        elif room_name == 'bathroom':
             GPIO.output(BLUE_PIN, False)
-            return '{} light {}.'.format(light_color, action)
         else:
             GPIO.output(RED_PIN, False)
             GPIO.output(GREEN_PIN, False)
             GPIO.output(YELLOW_PIN, False)
             GPIO.output(BLUE_PIN, False)
-            return 'Light {}.'.format(action)
+        return '{} light {}.'.format(room_name.capitalize(), action)
+
+        # if light_color == 'red':
+        #     GPIO.output(RED_PIN, False)
+        # elif light_color == 'green':
+        #     GPIO.output(GREEN_PIN, False)
+        # elif light_color == 'yellow':
+        #     GPIO.output(YELLOW_PIN, False)
+        # elif light_color == 'blue':
+        #     GPIO.output(BLUE_PIN, False)
+        # else:
+        #     GPIO.output(RED_PIN, False)
+        #     GPIO.output(GREEN_PIN, False)
+        #     GPIO.output(YELLOW_PIN, False)
+        #     GPIO.output(BLUE_PIN, False)
+        # return '{} light {}.'.format(light_color.capitalize(), action)
     else:
         return 'You should tell me explicitly to turn on or off the lights'
