@@ -82,7 +82,7 @@ def tts(message, voiceId="Matthew"):
         mixer.music.play()
         while mixer.music.get_busy():
             continue
-        return None
+    return None
 
 
 def tts2(message):

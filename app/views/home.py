@@ -7,6 +7,10 @@ from .main import serve_voice, serve_text
 import time
 from threading import Thread
 
+from playsound import playsound
+from pygame import mixer
+import sys
+
 home = Blueprint('home', __name__)
 
 BASE_DIR = app.config['BASE_DIR']
@@ -18,18 +22,43 @@ music_path = os.path.join(BASE_DIR, 'data/music')
 images_path = os.path.join(BASE_DIR, 'data/images')
 database_path = os.path.join(BASE_DIR, 'data/memory.db')
 recorded_audio_path = os.path.join(BASE_DIR, "audio.wav")
-
+jarvis_beep_audio_path = os.path.join(BASE_DIR, "data/music/jarvis_beep.mp3")
 
 # def process_waiting():
 #     tts('I am processing your request!')
 #     tts('Please Wait!')
 #     return None
 
+
 def show_sys_stable():
     """Show system stable message on LCD"""
-    time.sleep(5)
+    time.sleep(10)
     lcd.clear()
     lcd.message('System Stable :)')
+    return True
+
+
+def jarvis_beep():
+    """Jarvis is on"""
+    if sys.platform == "win32":
+        # print('on windows')
+        # mixer.init()
+        # mixer.music.load(output)
+        # mixer.music.play()
+        # while mixer.music.get_busy():
+        #     continue
+        return playsound(jarvis_beep_audio_path)
+        # os.startfile(output)
+    else:
+        # the following works on Mac and Linux. (Darwin = mac, xdg-open = linux).
+        # opener = "open" if sys.platform == "darwin" else "xdg-open"
+        # print([opener, output])
+        # subprocess.call([opener, output])
+        mixer.init()
+        mixer.music.load(jarvis_beep_audio_path)
+        mixer.music.play()
+        while mixer.music.get_busy():
+            continue
     return True
 
 
@@ -43,11 +72,11 @@ def voice():
     if request.method == 'POST':
         audio = request.data
 
+        Thread(target=jarvis_beep).start()
+
         with open(recorded_audio_path, "wb") as file:
             file.write(audio)
 
-        # t1 = Thread(target=process_waiting)
-        # t1.start()
         server_msg = serve_voice(recorded_audio_path, bot_name, username, location, music_path, images_path, database_path)
 
         if lcd:
@@ -57,6 +86,7 @@ def voice():
             t1.start()
 
         # t1.join()
+        jarvis_beep()
         tts(server_msg)
         return server_msg
 
