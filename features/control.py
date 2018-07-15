@@ -37,7 +37,7 @@ BLUE_PIN = 19
 # Setup GPIO Pins for outputs or inputs
 if PI:
     GPIO.setwarnings(False)  # Disable warnings
-    GPIO.setmode(GPIO.BOARD)
+    GPIO.setmode(GPIO.BCM)
     GPIO.setup(RED_PIN, GPIO.OUT)
     GPIO.setup(GREEN_PIN, GPIO.OUT)
     GPIO.setup(YELLOW_PIN, GPIO.OUT)

@@ -14,8 +14,8 @@ def tts(message):
     # Create a client using the credentials and region defined in the [adminuser]
     # section of the AWS credentials file (~/.aws/credentials).
     session = Session(
-        aws_access_key_id="AKIAJIRJKU4XH2ZDYM2A",
-        aws_secret_access_key="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",
+        aws_access_key_id="AKIAJIYWL55X4JWOHXMQ",
+        aws_secret_access_key="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",
         region_name="us-west-2",
     )
     polly = session.client("polly")
