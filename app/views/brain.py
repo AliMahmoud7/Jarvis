@@ -16,7 +16,6 @@ from .features.imgur_handler import image_uploader, show_all_uploads
 from .features.play_music import play_random, play_specific_music, play_shuffle
 from .features.notes import note_something, show_all_notes
 # from .features.open_firefox import open_firefox
-#
 
 
 def brain(speech_text, bot_name, username, location, music_path, images_path, database_path):
@@ -55,6 +54,7 @@ def brain(speech_text, bot_name, username, location, music_path, images_path, da
         intent = entities.get('intent')
         on_off = entities.get('on_off')
         color = entities.get('color')
+        room_names = entities.get('room_names')
         datetime = entities.get('datetime')
         weather_location = entities.get('location')
         greetings = entities.get('greetings')
@@ -67,23 +67,27 @@ def brain(speech_text, bot_name, username, location, music_path, images_path, da
             intent_value = intent[0].get('value')
 
             if intent_value == 'lights':
-                light_color = 'all'
-                if color:
-                    light_color = color[0].get('value')
-                elif 'red' in speech_text:
-                    light_color = 'red'
-                elif 'yellow' in speech_text:
-                    light_color = 'yellow'
-                elif 'blue' in speech_text:
-                    light_color = 'blue'
-                elif 'green' in speech_text:
-                    light_color = 'green'
-                elif 'white' in speech_text:
-                    light_color = 'white'
+                room_name = 'all'
+                if room_names:
+                    room_name = room_names[0].get('value')
+
+                # light_color = 'all'
+                # if color:
+                #     light_color = color[0].get('value')
+                # elif 'red' in speech_text:
+                #     light_color = 'red'
+                # elif 'yellow' in speech_text:
+                #     light_color = 'yellow'
+                # elif 'blue' in speech_text:
+                #     light_color = 'blue'
+                # elif 'green' in speech_text:
+                #     light_color = 'green'
+                # elif 'white' in speech_text:
+                #     light_color = 'white'
 
                 if on_off:
                     action = on_off[0].get('value')
-                    return control_light(action, light_color)
+                    return control_light(action, room_name=room_name)
                 else:
                     return undefined()
             elif intent_value == 'weather':
