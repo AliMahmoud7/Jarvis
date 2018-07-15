@@ -86,7 +86,7 @@ def voice():
             t1.start()
 
         # t1.join()
-        jarvis_beep()
+        # jarvis_beep()
         tts(server_msg)
         return server_msg
 
