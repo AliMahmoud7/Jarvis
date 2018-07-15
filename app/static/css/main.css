@@ -39,6 +39,7 @@
     max-width: 65%;
     clear: both;
     word-wrap: break-word;
+    font-size: 15px;
 }
 
 .right-msg {
@@ -56,10 +57,10 @@
 }
 
 input[type="submit"] {
-	padding: 7px;
+    padding: 7px;
     display: inline-block;
     vertical-align: middle;
-    height: 40px;
+    height: 35px;
     color: #ff0000;
     font-weight: bold;
     margin-left: 5px;
@@ -92,7 +93,7 @@ input { font:12px arial; }
 
 #usermsg {
     border: 1px solid #ACD8F0;
-    height: 40px;
+    height: 35px;
     margin: 0 auto;
     resize: none;
     display: inline-block;

@@ -1,3 +1,6 @@
+# Ignore linux .save files
+*.py.save
+
 venv/*
 
 # Ignore a temporary test file
